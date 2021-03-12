@@ -289,6 +289,15 @@
  		</roles>
  	</developer>
 
+	<developer>
+		<id>dantorval-us</id>
+		<name>Daniel Toro Valle</name>
+		<email>dantorval@alum.us.es</email>
+		<roles>
+			<role>developer</role>
+		</roles>
+	</developer>
+
 </developers>
 
 </project>
