@@ -297,6 +297,15 @@
 			<role>developer</role>
 		</roles>
 	</developer>
+	
+	<developer>
+		<id>dansuaper</id>
+		<name>Daniel Suárez Perea</name>
+		<email>dansuaper@alum.us.es</email>
+		<roles>
+			<role>Developer</role>
+		</roles>
+	</developer>
 
 </developers>
 
