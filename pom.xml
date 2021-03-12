@@ -260,15 +260,31 @@
 
 	<developer>
 
+ 		<id>danmuaher</id>
+
+ 		<name>Daniel Muñoz Heredia</name>
+
+ 		<email>danmuaher@alum.us.es</email>
+
+ 		<roles>
+
+ 			<role>Scrum Master</role>
+
+ 		</roles>
+ 		
+ 	</developer>
+
+	<developer>
+
  		<id>manmunesp1</id>
 
- 		<name>Manuel</name>
+ 		<name>Manuel Muñoz España</name>
 
  		<email>manmunesp1@alum.us.es</email>
 
  		<roles>
 
- 			<role>developer</role>
+ 			<role>Developer</role>
 
  		</roles>
  		
@@ -278,42 +294,63 @@
 
  		<id>badrijher</id>
 
- 		<name>Badayco</name>
+ 		<name>Badayco Rijo Hernandez</name>
 
  		<email>badrijher@alum.us.es</email>
 
  		<roles>
 
- 			<role>developer</role>
+ 			<role>Developer</role>
 
  		</roles>
  	</developer>
 
 	<developer>
+	
 		<id>dantorval-us</id>
+		
 		<name>Daniel Toro Valle</name>
+		
 		<email>dantorval@alum.us.es</email>
+		
 		<roles>
-			<role>developer</role>
-		</roles>
-	</developer>
-	
-	<developer>
-		<id>dansuaper</id>
-		<name>Daniel Suárez Perea</name>
-		<email>dansuaper@alum.us.es</email>
-		<roles>
+		
 			<role>Developer</role>
+			
 		</roles>
+		
 	</developer>
 	
 	<developer>
-		<id>fraviltor-us</id>
-		<name>Francisco Villazán Torres</name>
-		<email>fraviltor@alum.us.es</email>
+	
+		<id>dansuaper</id>
+		
+		<name>Daniel Suárez Perea</name>
+		
+		<email>dansuaper@alum.us.es</email>
+		
 		<roles>
-			<role>developer</role>
+		
+			<role>Developer</role>
+			
 		</roles>
+		
+	</developer>
+	
+	<developer>
+	
+		<id>fraviltor-us</id>
+		
+		<name>Francisco Villazán Torres</name>
+		
+		<email>fraviltor@alum.us.es</email>
+		
+		<roles>
+		
+			<role>developer</role>
+			
+		</roles>
+		
 	</developer>
 
 </developers>
