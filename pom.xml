@@ -254,7 +254,41 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
+    
+    
+<developers>
 
+	<developer>
 
+ 		<id>manmunesp1</id>
+
+ 		<name>Manuel</name>
+
+ 		<email>manmunesp1@alum.us.es</email>
+
+ 		<roles>
+
+ 			<role>developer</role>
+
+ 		</roles>
+ 		
+ 	</developer>
+
+ 	<developer>
+
+ 		<id>badrijher</id>
+
+ 		<name>Badayco</name>
+
+ 		<email>badrijher@alum.us.es</email>
+
+ 		<roles>
+
+ 			<role>developer</role>
+
+ 		</roles>
+ 	</developer>
+
+</developers>
 
 </project>
