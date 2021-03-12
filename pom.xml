@@ -306,6 +306,15 @@
 			<role>Developer</role>
 		</roles>
 	</developer>
+	
+	<developer>
+		<id>fraviltor-us</id>
+		<name>Francisco Villazán Torres</name>
+		<email>fraviltor@alum.us.es</email>
+		<roles>
+			<role>developer</role>
+		</roles>
+	</developer>
 
 </developers>
 
