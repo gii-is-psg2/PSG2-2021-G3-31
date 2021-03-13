@@ -7,15 +7,14 @@
 
 <petclinic:layout pageName="owners">
     <h2>Owners</h2>
-
-    <table id="ownersTable" class="table table-striped">
+    <table id="ownersTable" class="table table-striped" >
         <thead>
         <tr>
-            <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">Address</th>
-            <th>City</th>
-            <th style="width: 120px">Telephone</th>
-            <th>Pets</th>
+            <th style="width: 150px;background-color:silver;border-bottom-color:silver">Name</th>
+            <th style="width: 200px;background-color:silver;border-bottom-color:silver;">Address</th>
+            <th style="background-color:silver;border-bottom-color:silver">City</th>
+            <th style="width: 120px;background-color:silver;border-bottom-color:silver">Telephone</th>
+            <th style="background-color:silver;border-bottom-color:silver">Pets</th>
         </tr>
         </thead>
         <tbody>
