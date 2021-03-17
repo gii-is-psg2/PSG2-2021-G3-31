@@ -1,0 +1,32 @@
+project:
+  name: 'PSG2-2021-G3-31 Petclinic'
+  owner: 'L3'
+  teamId: '31'
+  identities:
+    github:
+      url: 'https://github.com/gii-is-psg2/PSG2-2021-G3-31'
+  members:
+    member1:
+      name: 'Manuel'
+      surname: 'Muñoz España' 
+      githubUsername: 'manmunesp12'
+    member2:
+      name: 'Daniel'
+      surname: 'Muñoz Heredia'
+      githubUsername: 'NoSoyDani'
+    member3:
+      name: 'Badayco'
+      surname: 'Rijo Hernández'
+      githubUsername: 'badagcrack'
+    member4:
+      name: 'Daniel'
+      surname: 'Suarez Perea'
+      githubUsername: 'dansuaper1'
+    member5:
+      name: 'Daniel'
+      surname: 'Toro Valle'
+      githubUsername: 'dantorval-us'
+    member6:
+      name: 'Francisco'
+      surname: 'Villazan Torres'
+      githubUsername: 'fraviltor'
