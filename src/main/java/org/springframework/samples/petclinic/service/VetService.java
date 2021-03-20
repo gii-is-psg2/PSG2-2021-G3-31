@@ -44,6 +44,12 @@ import org.springframework.util.StringUtils;
 public class VetService {
 
 	private VetRepository vetRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private AuthoritiesService authoritiesService;
 
 
 	@Autowired
@@ -54,6 +60,23 @@ public class VetService {
 	@Transactional(readOnly = true)	
 	public Collection<Vet> findVets() throws DataAccessException {
 		return vetRepository.findAll();
-	}	
+	}
+	
+	@Transactional(readOnly = true)
+	public Vet findVetByUsername(String username) {
+		return vetRepository.findVetByUsername(username);
+	}
+	
+	@Transactional(readOnly = true)
+	public Vet findVetById(int vetId) {
+		return vetRepository.findVetById(vetId);
+	}
+	
+	@Transactional
+	public void saveVet(Vet vet) throws DataAccessException {
+		vetRepository.save(vet);		
+		userService.saveUser(vet.getUser());
+		authoritiesService.saveAuthorities(vet.getUser().getUsername(), "veterinarian");
+	}
 
 }
