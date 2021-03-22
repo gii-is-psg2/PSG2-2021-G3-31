@@ -23,6 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
@@ -63,13 +64,28 @@ public class VetService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Vet findVetByUsername(String username) {
+	public Vet findVetByUsername(String username) throws DataAccessException {
 		return vetRepository.findVetByUsername(username);
 	}
 	
 	@Transactional(readOnly = true)
-	public Vet findVetById(int vetId) {
+	public Vet findVetById(int vetId) throws DataAccessException {
 		return vetRepository.findVetById(vetId);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Specialty> findSpecialties() throws DataAccessException{
+		return vetRepository.findSpecialties();
+	}
+	
+	@Transactional(readOnly = true)
+	public int usuarioRegistrado(String nombre,String apellido) throws DataAccessException{
+		return vetRepository.usuarioRegistrado(nombre, apellido);
+	}
+	
+	@Transactional(readOnly = true)
+	public int nombreUsuarioRegistrado(String username) throws DataAccessException{
+		return vetRepository.nombreUsuarioRegistrado(username);
 	}
 	
 	@Transactional
