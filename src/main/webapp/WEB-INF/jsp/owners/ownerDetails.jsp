@@ -93,5 +93,51 @@
 
         </c:forEach>
     </table>
+    
+    <h2>Pets and Bookings</h2>
+
+    <table class="table table-striped">
+        <c:forEach var="pet" items="${owner.pets}">
+
+            <tr>
+                <td valign="top">
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd><c:out value="${pet.name}"/></dd>
+                        <dt>Birth Date</dt>
+                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
+                        <dt>Type</dt>
+                        <dd><c:out value="${pet.type.name}"/></dd>
+                    </dl>
+                </td>
+                <td valign="top">
+                    <table class="table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Fecha de reserva</th>
+                            <th>Habitación</th>
+                        </tr>
+                        </thead>
+                        <c:forEach var="booking" items="${pet.bookings}">
+                            <tr>
+                                <td><petclinic:localDate date="${booking.fechaEntrada}" pattern="yyyy-MM-dd"/></td>
+                                <td><c:out value="${booking.room}"/></td>
+                            </tr>
+                        </c:forEach>
+                        <tr>
+                            <td>
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/bookings/new" var="bookingUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(bookingUrl)}">Nueva reserva</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </c:forEach>
+    </table>
 
 </petclinic:layout>
