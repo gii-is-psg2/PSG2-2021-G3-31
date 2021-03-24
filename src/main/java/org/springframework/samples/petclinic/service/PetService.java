@@ -19,8 +19,10 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
@@ -74,9 +76,18 @@ public class PetService {
                 petRepository.save(pet);                
 	}
 
-
 	public Collection<Visit> findVisitsByPetId(int petId) {
 		return visitRepository.findByPetId(petId);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Pet> findAll() {
+		return (Collection<Pet>) this.petRepository.findAll();
+    }
+		
+	@Transactional
+	public void deletePet(Pet pet) throws DataAccessException {
+		 this.petRepository.delete(pet);
+    }
 
 }

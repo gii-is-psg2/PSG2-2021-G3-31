@@ -40,7 +40,6 @@
                         <c:out value="${pet.name} "/>
                     </c:forEach>
                 </td>
-                
       
 <!--
                 <td> 
