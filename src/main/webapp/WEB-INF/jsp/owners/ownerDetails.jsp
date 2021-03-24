@@ -52,7 +52,7 @@
                         <dt>Name</dt>
                         <dd><c:out value="${pet.name}"/></dd>
                         <dt>Birth Date</dt>
-                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
+                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="dd-MM-yyyy"/></dd>
                         <dt>Type</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
                     </dl>
@@ -67,7 +67,7 @@
                         </thead>
                         <c:forEach var="visit" items="${pet.visits}">
                             <tr>
-                                <td><petclinic:localDate date="${visit.date}" pattern="yyyy-MM-dd"/></td>
+                                <td><petclinic:localDate date="${visit.date}" pattern="dd-MM-yyyy"/></td>
                                 <td><c:out value="${visit.description}"/></td>
                             </tr>
                         </c:forEach>
@@ -105,7 +105,7 @@
                         <dt>Name</dt>
                         <dd><c:out value="${pet.name}"/></dd>
                         <dt>Birth Date</dt>
-                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
+                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="dd-MM-yyyy"/></dd>
                         <dt>Type</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
                     </dl>
@@ -114,13 +114,15 @@
                     <table class="table-condensed">
                         <thead>
                         <tr>
-                            <th>Fecha de reserva</th>
+                            <th>Fecha de inicio de la reserva</th>
+                            <th>Fecha de fin de la reserva</th>
                             <th>Habitación</th>
                         </tr>
                         </thead>
                         <c:forEach var="booking" items="${pet.bookings}">
                             <tr>
-                                <td><petclinic:localDate date="${booking.fechaEntrada}" pattern="yyyy-MM-dd"/></td>
+                                <td><petclinic:localDate date="${booking.fechaEntrada}" pattern="dd-MM-yyyy"/></td>
+                                <td><petclinic:localDate date="${booking.fechaSalida}" pattern="dd-MM-yyyy"/></td>
                                 <td><c:out value="${booking.room}"/></td>
                             </tr>
                         </c:forEach>

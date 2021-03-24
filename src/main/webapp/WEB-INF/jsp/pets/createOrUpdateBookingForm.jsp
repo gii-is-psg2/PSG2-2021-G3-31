@@ -15,8 +15,8 @@
     </jsp:attribute>
     <jsp:body>
         <h2><c:if test="${booking['new']}">Nueva </c:if>Reserva</h2>
-
-        <b>Pet</b>
+        
+        <b>Mascota</b>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -28,7 +28,7 @@
             </thead>
             <tr>
                 <td><c:out value="${booking.pet.name}"/></td>
-                <td><petclinic:localDate date="${booking.pet.birthDate}" pattern="yyyy/MM/dd"/></td>
+                <td><petclinic:localDate date="${booking.pet.birthDate}" pattern="dd/MM/yyyy"/></td>
                 <td><c:out value="${booking.pet.type.name}"/></td>
                 <td><c:out value="${booking.pet.owner.firstName} ${booking.pet.owner.lastName}"/></td>
             </tr>
@@ -36,15 +36,15 @@
 
         <form:form modelAttribute="booking" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Fecha entrada" name="fechaEntrada"/>
-                <petclinic:inputField label="Fecha salida" name="fechaSalida"/>
+                <petclinic:inputField label="Fecha de entrada" name="fechaEntrada"/>
+                <petclinic:inputField label="Fecha de salida" name="fechaSalida"/>
                 <petclinic:inputField label="Habitación" name="room"/>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="petId" value="${booking.pet.id}"/>
-                    <button class="btn btn-default" type="submit">Nueva reserva</button>
+                    <button class="btn btn-default" type="submit">Reservar</button>
                 </div>
             </div>
         </form:form>
@@ -53,15 +53,15 @@
         <b>Reservas previas</b>
         <table class="table table-striped">
             <tr>
-                <th>Fecha entrada</th>
-                <th>Fecha salida</th>
+                <th>Fecha de entrada</th>
+                <th>Fecha de salida</th>
                 <th>Habitación</th>
             </tr>
             <c:forEach var="booking" items="${booking.pet.bookings}">
                 <c:if test="${!booking['new']}">
                     <tr>
-                        <td><petclinic:localDate date="${booking.fechaEntrada}" pattern="yyyy/MM/dd"/></td>
-                        <td><petclinic:localDate date="${booking.fechaSalida}" pattern="yyyy/MM/dd"/></td>
+                        <td><petclinic:localDate date="${booking.fechaEntrada}" pattern="dd/MM/yyyy"/></td>
+                        <td><petclinic:localDate date="${booking.fechaSalida}" pattern="dd/MM/yyyy"/></td>
                         <td><c:out value="${booking.room}"/></td>
                     </tr>
                 </c:if>
