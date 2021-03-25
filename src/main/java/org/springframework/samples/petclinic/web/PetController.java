@@ -153,11 +153,11 @@ public class PetController {
 		}
 	}
 
-	@GetMapping("/pets/{petId}/delete")
-	public String deletePet(@PathVariable("petId") int petId, ModelMap model) {
-	    try {
-		    Pet pet =this.petService.findPetById(petId);
-			this.petService.deletePet(pet);
+    @GetMapping("/pets/{petId}/delete")
+    public String deletePet(@PathVariable("petId") int petId, ModelMap model) {
+        try {
+        	Pet pet =this.petService.findPetById(petId);
+            this.petService.deletePet(pet);
 			model.addAttribute("message","Mascota eliminada correctamente.");
 			Collection<Pet> pets = this.petService.findAll();
 			model.put("pet", pets);
@@ -167,10 +167,9 @@ public class PetController {
 			Collection<Pet> pets = this.petService.findAll();
 			model.put("pet", pets);
 		}
-	    return "redirect:/owners/{ownerId}"; 
-	}
-	
-	
+        
+        return "redirect:/owners/{ownerId}";
+    }
 	
 	
 }
