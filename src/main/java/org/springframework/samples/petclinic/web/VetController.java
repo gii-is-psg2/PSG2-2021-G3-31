@@ -16,13 +16,18 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Juergen Hoeller
@@ -61,4 +66,15 @@ public class VetController {
 		return vets;
 	}
 
+	@GetMapping("/vets/{vetId}/delete")
+    public String deleteVet(@PathVariable("vetId") int vetId, ModelMap model) {
+        Optional<Vet> vet =this.vetService.findVetById(vetId);
+        if (vet.isPresent()) {
+            this.vetService.deleteVet(vet.get());
+            model.addAttribute("message","Veterinario eliminado correctamente.");
+        }else {
+			model.addAttribute("message", "Veterinario no encontrado.");
+		}
+        return showVetList(model);
+    }
 }

@@ -12,6 +12,7 @@
         <tr>
             <th>Nombre</th>
             <th>Especialidades</th>
+            <th>Acción</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +26,11 @@
                         <c:out value="${specialty.name} "/>
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">Ninguna</c:if>
+                </td>
+                <td>
+                	<a href="/vets/${vet.id}/delete">
+                		<span>Eliminar</span>
+                	</a>
                 </td>
             </tr>
         </c:forEach>
