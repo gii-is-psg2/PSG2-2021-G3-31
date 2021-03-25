@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="owners">
 
-    <h2>Informaci贸n de Propietario</h2>
+    <h2>Informaci髇 de Propietario</h2>
 
 
     <table class="table table-striped">
@@ -15,7 +15,7 @@
             <td><b><c:out value="${owner.firstName} ${owner.lastName}"/></b></td>
         </tr>
         <tr>
-            <th>Direcci贸n</th>
+            <th>Direcci髇</th>
             <td><c:out value="${owner.address}"/></td>
         </tr>
         <tr>
@@ -23,7 +23,7 @@
             <td><c:out value="${owner.city}"/></td>
         </tr>
         <tr>
-            <th>N煤mero de Tel茅fono</th>
+            <th>N鷐ero de Tel閒ono</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>
     </table>
@@ -41,7 +41,7 @@
     <spring:url value="{ownerId}/pets/new" var="addUrl">
         <spring:param name="ownerId" value="${owner.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A帽adir Nueva Mascota</a>
+    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A馻dir Nueva Mascota</a>
 
     <br/>
     <br/>
@@ -66,8 +66,8 @@
                     <table class="table-condensed">
                         <thead>
                         <tr>
-                            <th>D铆a de Visita</th>
-                            <th>Descripci贸n</th>
+                            <th>D韆 de Visita</th>
+                            <th>Descripci髇</th>
                         </tr>
                         </thead>
                         <c:forEach var="visit" items="${pet.visits}">
@@ -96,7 +96,7 @@
                                     <spring:param name="ownerId" value="${owner.id}"/>
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
-                                <a href="${fn:escapeXml(visitUrl)}">A帽adir Visita</a>
+                                <a href="${fn:escapeXml(visitUrl)}">A馻dir Visita</a>
                             </td>
                         </tr>
                     </table>
@@ -106,7 +106,7 @@
         </c:forEach>
     </table>
     
-    <h2>Pets and Bookings</h2>
+    <h2>Mascotas y reservas</h2>
 
     <table class="table table-striped">
         <c:forEach var="pet" items="${owner.pets}">
@@ -114,11 +114,11 @@
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
-                        <dt>Name</dt>
+                        <dt>Nombre</dt>
                         <dd><c:out value="${pet.name}"/></dd>
-                        <dt>Birth Date</dt>
+                        <dt>Fecha de Nacimiento</dt>
                         <dd><petclinic:localDate date="${pet.birthDate}" pattern="dd-MM-yyyy"/></dd>
-                        <dt>Type</dt>
+                        <dt>Tipo</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
                     </dl>
                 </td>
@@ -128,7 +128,7 @@
                         <tr>
                             <th>Fecha de inicio de la reserva</th>
                             <th>Fecha de fin de la reserva</th>
-                            <th>Habitaci贸n</th>
+                            <th>Habitaci髇</th>
                         </tr>
                         </thead>
                         <c:forEach var="booking" items="${pet.bookings}">
