@@ -10,11 +10,11 @@
     <table id="ownersTable" class="table table-striped" >
         <thead>
         <tr>
-            <th style="width: 150px;background-color:silver;border-bottom-color:silver">Nombre</th>
-            <th style="width: 200px;background-color:silver;border-bottom-color:silver;">Dirección</th>
-            <th style="background-color:silver;border-bottom-color:silver">Ciudad</th>
-            <th style="width: 120px;background-color:silver;border-bottom-color:silver">Número de Teléfono</th>
-            <th style="background-color:silver;border-bottom-color:silver">Mascotas</th>
+            <th style="width: 150px">Nombre</th>
+            <th style="width: 200px;">Dirección</th>
+            <th>Ciudad</th>
+            <th style="width: 160px">Número de Teléfono</th>
+            <th>Mascotas</th>
         </tr>
         </thead>
         <tbody>
