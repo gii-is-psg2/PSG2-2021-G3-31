@@ -24,6 +24,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
@@ -45,6 +46,12 @@ import org.springframework.util.StringUtils;
 public class VetService {
 
 	private VetRepository vetRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private AuthoritiesService authoritiesService;
 
 
 	@Autowired
@@ -55,7 +62,39 @@ public class VetService {
 	@Transactional(readOnly = true)	
 	public Collection<Vet> findVets() throws DataAccessException {
 		return vetRepository.findAll();
-	}	
+	}
+	
+	@Transactional(readOnly = true)
+	public Vet findVetByUsername(String username) throws DataAccessException {
+		return vetRepository.findVetByUsername(username);
+	}
+	
+	@Transactional(readOnly = true)
+	public Vet findVetById(int vetId) throws DataAccessException {
+		return vetRepository.findVetById(vetId);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Specialty> findSpecialties() throws DataAccessException{
+		return vetRepository.findSpecialties();
+	}
+	
+	@Transactional(readOnly = true)
+	public int usuarioRegistrado(String nombre,String apellido) throws DataAccessException{
+		return vetRepository.usuarioRegistrado(nombre, apellido);
+	}
+	
+	@Transactional(readOnly = true)
+	public int nombreUsuarioRegistrado(String username) throws DataAccessException{
+		return vetRepository.nombreUsuarioRegistrado(username);
+	}
+	
+	@Transactional
+	public void saveVet(Vet vet) throws DataAccessException {
+		vetRepository.save(vet);		
+		userService.saveUser(vet.getUser());
+		authoritiesService.saveAuthorities(vet.getUser().getUsername(), "veterinarian");
+	}
 
 	@Transactional(readOnly = true)
 	public Optional<Vet> findVetById(int id) throws DataAccessException {

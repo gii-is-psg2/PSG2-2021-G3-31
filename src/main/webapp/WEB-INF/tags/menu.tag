@@ -32,16 +32,26 @@
 					title="Buscar Propietarios">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Buscar Propietarios</span>
-				</petclinic:menuItem>
+				</petclinic:menuItem>		
+				<sec:authorize access="hasAnyAuthority('veterinarian')">
+				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vet"
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
 					title="Veterinarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarios</span>
 				</petclinic:menuItem>
-
+				</sec:authorize>
+				
+				<sec:authorize access="!hasAnyAuthority('veterinarian')">
+				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vets"
+					title="Veterinarios">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Veterinarios</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="Trigger que provoca una excepción del tipo RuntimeException para ver como se maneja">
+					title="Trigger que provoca una excepciÃ³n del tipo RuntimeException para ver como se maneja">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
@@ -53,12 +63,12 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Iniciar Sesión</a></li>
+					<li><a href="<c:url value="/login" />">Iniciar SesiÃ³n</a></li>
 					<li><a href="<c:url value="/users/new" />">Registrarse</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>Â 
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -77,7 +87,7 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Cerrar Sesión</a>
+													class="btn btn-primary btn-block btn-sm">Cerrar SesiÃ³n</a>
 											</p>
 										</div>
 									</div>
