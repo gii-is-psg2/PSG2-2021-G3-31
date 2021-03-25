@@ -30,11 +30,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
-
+import java.util.Optional;
 import javax.validation.Valid;
 
 /**
@@ -162,4 +161,15 @@ public class VetController {
 		}
 	}
 
+	@GetMapping("/vets/{vetId}/delete")
+    public String deleteVet(@PathVariable("vetId") int vetId, ModelMap model) {
+        Optional<Vet> vet =this.vetService.findVetById(vetId);
+        if (vet.isPresent()) {
+            this.vetService.deleteVet(vet.get());
+            model.addAttribute("message","Veterinario eliminado correctamente.");
+        }else {
+			model.addAttribute("message", "Veterinario no encontrado.");
+		}
+        return showVetList(model);
+    }
 }

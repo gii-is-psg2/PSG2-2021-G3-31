@@ -13,6 +13,8 @@
         <tr>
             <th>Nombre</th>
             <th>Especialidades</th>
+            <th>Acción</th>
+
         </tr>
         </thead>
         <tbody>
@@ -25,7 +27,12 @@
                     <c:forEach var="specialty" items="${vet.specialties}">
                         <c:out value="${specialty.name} "/>
                     </c:forEach>
-                    <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
+                    <c:if test="${vet.nrOfSpecialties == 0}">Ninguna</c:if>
+                </td>
+                <td>
+                	<a href="/vets/${vet.id}/delete">
+                		<span>Eliminar</span>
+                	</a>
                 </td>
             </tr>
         </c:forEach>
@@ -36,7 +43,7 @@
     <table class="table-buttons">
         <tr>
             <td>
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver como XML</a>
+                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver en formato XML</a>
             </td>            
         </tr>
     </table>
