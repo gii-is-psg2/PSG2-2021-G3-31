@@ -55,4 +55,5 @@ public interface VetRepository extends Repository<Vet, Integer>,CrudRepository<V
 	
 	@Query("SELECT COUNT (vet.id) FROM Vet vet WHERE vet.user.username LIKE ?1")
 	int nombreUsuarioRegistrado(String username) throws DataAccessException;
+	
 }

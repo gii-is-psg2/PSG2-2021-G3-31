@@ -53,9 +53,9 @@ INSERT INTO vets VALUES (4, 'Rafael', 'Ortega','vet4');
 INSERT INTO vets VALUES (5, 'Henry', 'Stevens','vet5');
 INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins','vet6');
 
-INSERT INTO specialties VALUES (1, 'radiología');
-INSERT INTO specialties VALUES (2, 'cirugía');
-INSERT INTO specialties VALUES (3, 'odontología');
+INSERT INTO specialties VALUES (1, 'radiologia');
+INSERT INTO specialties VALUES (2, 'cirugia');
+INSERT INTO specialties VALUES (3, 'odontologia');
 
 INSERT INTO vet_specialties VALUES (2, 1);
 INSERT INTO vet_specialties VALUES (3, 2);

@@ -33,7 +33,7 @@
                         <spring:param name="vetId" value="${vet.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vetEditUrl)}">Editar veterinario</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/vets/${vet.id}/delete">
+                    <a href="/vet/${vet.id}/delete">
                 		<span>Eliminar</span>
                 	</a>
                 </td>

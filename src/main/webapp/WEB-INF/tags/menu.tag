@@ -33,16 +33,15 @@
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Buscar Propietarios</span>
 				</petclinic:menuItem>		
-				<sec:authorize access="hasAnyAuthority('veterinarian')">
+				<sec:authorize access="!hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vet"
-
 					title="Veterinarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarios</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				
-				<sec:authorize access="!hasAnyAuthority('veterinarian')">
+				<sec:authorize access="hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vets"
 					title="Veterinarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>

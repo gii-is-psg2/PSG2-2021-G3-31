@@ -21,6 +21,7 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,9 +30,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -46,16 +49,16 @@ import javax.validation.Valid;
 public class VetController {
 
 	private final VetService vetService;
+	
+	private final AuthoritiesService authoritiesService;
 
 	@Autowired
-	public VetController(VetService clinicService) {
+	public VetController(VetService clinicService, AuthoritiesService authoritiesService) {
 		this.vetService = clinicService;
+		this.authoritiesService =authoritiesService;
 	}
 	
-	@ModelAttribute("specialties")
-	public Collection<Specialty> populateSpecialties() {
-		return this.vetService.findSpecialties();
-	}
+
 
 	@GetMapping(value = { "/vets" })
 	public String showVetList(Map<String, Object> model) {
@@ -89,23 +92,17 @@ public class VetController {
 		return vets;
 	}
 	
-	/*
-	@GetMapping(value = "/vets/{vetId}")
-	public String showVet(@PathVariable("vetId") int vetId,Map<String, Object> model) {
-		Vet vet = this.vetService.findVetById(vetId);
-		model.put("vet", vet);
-		return "vets/showVet";
-	}*/
 	
 	@GetMapping(value = "/vet/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Vet vet = new Vet();
 		model.put("vet", vet);
+		model.put("specialties", this.vetService.findSpecialties());
 		return "vets/CreateOrEditVet";
 	}
 
 	@PostMapping(value = "/vet/new")
-	public String processCreationForm(@Valid Vet vet, BindingResult result, ModelMap model) {
+	public String processCreationForm(@Valid Vet vet, BindingResult result, ModelMap model,@RequestParam(value="specialties") Specialty[] specialties) {
 		if (this.vetService.usuarioRegistrado(vet.getFirstName(),vet.getLastName())==1) {
 			result.rejectValue("firstName", "Usuario ya registrado", "Usuario ya registrado");
 			return "vets/CreateOrEditVet";
@@ -124,6 +121,9 @@ public class VetController {
 			return "vets/CreateOrEditVet";
 		}
 		else {
+			for(int i=0;i<specialties.length;i++) {
+				vet.addSpecialty(specialties[i]);
+			}
 			this.vetService.saveVet(vet);
 			return "redirect:/vet";
 		}
@@ -132,8 +132,9 @@ public class VetController {
 	@GetMapping(value = "/vet/{vetId}/edit")
 	public String initEditForm(final Principal principal,@PathVariable("vetId") int vetId,Map<String, Object> model) {
 		Vet vet = this.vetService.findVetById(vetId);
-		if(vet.equals(this.vetService.findVetByUsername(principal.getName()))) {
+		if(vet.equals(this.vetService.findVetByUsername(principal.getName()))||this.authoritiesService.getRol(principal.getName()).equals("admin")) {
 			model.put("vet", vet);
+			model.put("specialties", this.vetService.findSpecialties());
 			return "vets/CreateOrEditVet";
 		}else {
 			return "exception";	
@@ -141,11 +142,13 @@ public class VetController {
 	}
 	
 	@PostMapping(value = "/vet/{vetId}/edit")
-	public String processEditForm(final Principal principal,@PathVariable("vetId") int vetId,@Valid Vet vet, BindingResult result, Map<String, Object> model) {
-		vet.setId(this.vetService.findVetByUsername(principal.getName()).getId());
+	public String processEditForm(final Principal principal,@PathVariable("vetId") int vetId,@Valid Vet vet, BindingResult result, Map<String, Object> model,
+		 @RequestParam(value="specialties") Specialty[] specialties) {
+		vet.setId(vetId);
 		Vet vetGuardado= this.vetService.findVetById(vetId);
 		if (result.hasErrors()) {
 			model.put("vet", vet);
+			model.put("specialties", this.vetService.findSpecialties());
 			return "vets/CreateOrEditVet";
 		}
 		else if(vet.getUser().getPassword()==null || vet.getUser().getPassword().isEmpty()) {
@@ -156,11 +159,14 @@ public class VetController {
 			return "vets/CreateOrEditVet";
 		}
 		else {
+			for(int i=0;i<specialties.length;i++) {
+				vet.addSpecialty(specialties[i]);
+			}
 			this.vetService.saveVet(vet);
 			return "redirect:/vet";
 		}
 	}
-
+	/*
 	@GetMapping("/vets/{vetId}/delete")
     public String deleteVet(@PathVariable("vetId") int vetId, ModelMap model) {
         Optional<Vet> vet =this.vetService.findVetByIdOpt(vetId);
@@ -171,5 +177,17 @@ public class VetController {
 			model.addAttribute("message", "Veterinario no encontrado.");
 		}
         return showVetList(model);
+    }*/
+	
+	@GetMapping("/vet/{vetId}/delete")
+    public String deleteVetForVet(@PathVariable("vetId") int vetId, ModelMap model) {
+        Optional<Vet> vet =this.vetService.findVetByIdOpt(vetId);
+        if (vet.isPresent()) {
+            this.vetService.deleteVet(vet.get());
+            model.addAttribute("message","Veterinario eliminado correctamente.");
+        }else {
+			model.addAttribute("message", "Veterinario no encontrado.");
+		}
+        return "redirect:/vet";
     }
 }
