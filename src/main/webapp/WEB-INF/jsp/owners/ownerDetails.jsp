@@ -9,7 +9,7 @@
     <h2>Información de Propietario</h2>
 
 
-    <table class="table table-striped">
+    <table class="table socia">
         <tr>
             <th>Nombre</th>
             <td><b><c:out value="${owner.firstName} ${owner.lastName}"/></b></td>
@@ -48,7 +48,7 @@
     <br/>
     <h2>Mascotas y Visitas</h2>
 
-    <table class="table table-striped">
+    <table class="table socio">
         <c:forEach var="pet" items="${owner.pets}">
 
             <tr>
@@ -108,7 +108,7 @@
     
     <h2>Mascotas y reservas</h2>
 
-    <table class="table table-striped">
+    <table class="table socio">
         <c:forEach var="pet" items="${owner.pets}">
 
             <tr>

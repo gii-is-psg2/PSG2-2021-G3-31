@@ -51,7 +51,7 @@
 
         <br/>
         <b>Reservas previas</b>
-        <table class="table table-striped">
+        <table class="table reservaprevia">
             <tr>
                 <th>Fecha de entrada</th>
                 <th>Fecha de salida</th>

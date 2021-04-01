@@ -17,11 +17,11 @@
         <div class="form-group has-feedback">
         	<petclinic:inputField label="Nombre" name="firstName"/>
             <petclinic:inputField label="Apellidos" name="lastName"/>
-            <div class="col-sm-10">
-					<label>Especialidades:</label>
+            <div class="col-sm-11" style="left:5%;">
+					<label>Especialidades</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 					<form:checkboxes items="${specialties}" path="specialties"
 							delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="name"
-							style="border:10px;" />
+							style="border:10px;"  />
 			</div>
             <petclinic:inputField label="Nombre de Usuario" name="user.username"/>        
             <petclinic:inputField label="Contraseña" name="user.password"/>

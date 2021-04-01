@@ -13,7 +13,6 @@
         <tr>
             <th>Nombre</th>
             <th>Especialidades</th>
-            <th>Acción</th>
 
         </tr>
         </thead>
