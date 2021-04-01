@@ -157,7 +157,6 @@ public class PetController {
     public String deletePet(@PathVariable("petId") int petId, ModelMap model) {
         try {
         	Pet pet = this.petService.findPetById(petId);
-        	System.out.println(pet.getName()+"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
             this.petService.deletePet(pet);
 			model.addAttribute("message","Mascota eliminada correctamente.");
 			Collection<Pet> pets = this.petService.findAll();

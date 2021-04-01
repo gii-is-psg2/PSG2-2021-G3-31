@@ -92,6 +92,8 @@ public class PetService {
 		
 	@Transactional
 	public void deletePet(Pet pet) throws DataAccessException {
+		this.petRepository.deleteBookings(pet.getId());
+		this.petRepository.deleteVisits(pet.getId());
 		Integer ownerId=pet.getOwner().getId();
 		this.petRepository.deletePet(ownerId,pet.getId());
     }
@@ -104,5 +106,10 @@ public class PetService {
 	public Collection<Booking> findBookingsByPetId(int bookingId) {
 		return bookingRepository.findByPetId(bookingId);
 	}
+	
+	@Transactional
+	public void deleteVisit(int visitId) throws DataAccessException {
+		 this.visitRepository.deleteVisit(visitId);
+    }
 	
 }
