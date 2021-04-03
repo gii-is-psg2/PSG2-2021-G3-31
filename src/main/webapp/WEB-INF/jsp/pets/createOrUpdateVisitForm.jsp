@@ -50,7 +50,7 @@
 
         <br/>
         <b>Visitas Anteriores</b>
-        <table class="table table-striped">
+        <table class="table socia">
             <tr>
                 <th>Fecha</th>
                 <th>Descripción</th>
