@@ -21,7 +21,7 @@
 					<label>Especialidades</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 					<form:checkboxes items="${specialties}" path="specialties"
 							delimiter="&nbsp;&nbsp;&nbsp;" itemLabel="name"
-							style="border:10px;"  />
+							style="border:10px;"/>
 			</div>
             <petclinic:inputField label="Nombre de Usuario" name="user.username"/>        
             <petclinic:inputField label="Contraseña" name="user.password"/>

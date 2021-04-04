@@ -102,7 +102,8 @@ public class VetController {
 	}
 
 	@PostMapping(value = "/vet/new")
-	public String processCreationForm(@Valid Vet vet, BindingResult result, ModelMap model,@RequestParam(value="specialties") Specialty[] specialties) {
+	public String processCreationForm(@Valid Vet vet, BindingResult result, ModelMap model,@RequestParam(value="specialties") Optional<Specialty[]> specialties) {
+		model.put("specialties", this.vetService.findSpecialties());
 		if (this.vetService.usuarioRegistrado(vet.getFirstName(),vet.getLastName())==1) {
 			result.rejectValue("firstName", "Usuario ya registrado", "Usuario ya registrado");
 			return "vets/CreateOrEditVet";
@@ -121,8 +122,10 @@ public class VetController {
 			return "vets/CreateOrEditVet";
 		}
 		else {
-			for(int i=0;i<specialties.length;i++) {
-				vet.addSpecialty(specialties[i]);
+			if(specialties.isPresent()) {
+				for(int i=0;i<specialties.get().length;i++) {
+					vet.addSpecialty(specialties.get()[i]);
+				}
 			}
 			this.vetService.saveVet(vet);
 			return "redirect:/vet";
@@ -143,15 +146,19 @@ public class VetController {
 	
 	@PostMapping(value = "/vet/{vetId}/edit")
 	public String processEditForm(final Principal principal,@PathVariable("vetId") int vetId,@Valid Vet vet, BindingResult result, Map<String, Object> model,
-		 @RequestParam(value="specialties") Specialty[] specialties) {
+		 @RequestParam(value="specialties") Optional<Specialty[]> specialties) {
 		vet.setId(vetId);
+		model.put("specialties", this.vetService.findSpecialties());
 		Vet vetGuardado= this.vetService.findVetById(vetId);
 		if (result.hasErrors()) {
 			model.put("vet", vet);
 			model.put("specialties", this.vetService.findSpecialties());
 			return "vets/CreateOrEditVet";
 		}
-		else if(vet.getUser().getPassword()==null || vet.getUser().getPassword().isEmpty()) {
+		else if(vet.getUser().getUsername()==null || vet.getUser().getUsername().isEmpty()) {
+			result.rejectValue("user.username", "Debe indicar un nombre de usuario", "Debe indicar un nombre de usuario");
+			return "vets/CreateOrEditVet";
+		}else if(vet.getUser().getPassword()==null || vet.getUser().getPassword().isEmpty()) {
 			result.rejectValue("user.password", "Debe indicar una contraseña", "Debe indicar una contraseña");
 			return "vets/CreateOrEditVet";
 		}else if(this.vetService.nombreUsuarioRegistrado(vet.getUser().getUsername())>=1&&!vet.getUser().getUsername().equals(vetGuardado.getUser().getUsername())) {
@@ -159,8 +166,10 @@ public class VetController {
 			return "vets/CreateOrEditVet";
 		}
 		else {
-			for(int i=0;i<specialties.length;i++) {
-				vet.addSpecialty(specialties[i]);
+			if(specialties.isPresent()) {
+				for(int i=0;i<specialties.get().length;i++) {
+					vet.addSpecialty(specialties.get()[i]);
+				}
 			}
 			this.vetService.saveVet(vet);
 			return "redirect:/vet";
