@@ -55,7 +55,7 @@ public class VetService {
 
 
 	@Autowired
-	public VetService(VetRepository vetRepository) {
+	public VetService(VetRepository vetRepository,AuthoritiesService authoritiesService) {
 		this.vetRepository = vetRepository;
 	}		
 
@@ -97,7 +97,7 @@ public class VetService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Vet> findVetById(int id) throws DataAccessException {
+	public Optional<Vet> findVetByIdOpt(int id) throws DataAccessException {
 		return this.vetRepository.findById(id);
 	}
 	

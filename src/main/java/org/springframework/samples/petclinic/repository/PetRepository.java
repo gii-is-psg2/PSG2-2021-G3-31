@@ -57,4 +57,16 @@ public interface PetRepository extends Repository<Pet, Integer>, CrudRepository<
 	@Query("DELETE FROM Pet WHERE owner.id =:ownerId AND id =:petId")
 	public void deletePet(@Param("ownerId") int ownerId, @Param("petId") int petId);
 
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Visit WHERE pet.id =:petId")
+	public void deleteVisits(@Param("petId") int petId); 
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Booking WHERE pet.id =:petId")
+	public void deleteBookings(@Param("petId") int petId);
+	
+	
+	
 }
