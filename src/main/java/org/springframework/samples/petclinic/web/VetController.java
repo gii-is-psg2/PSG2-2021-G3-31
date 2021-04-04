@@ -135,7 +135,7 @@ public class VetController {
 	@GetMapping(value = "/vet/{vetId}/edit")
 	public String initEditForm(final Principal principal,@PathVariable("vetId") int vetId,Map<String, Object> model) {
 		Vet vet = this.vetService.findVetById(vetId);
-		if(vet.equals(this.vetService.findVetByUsername(principal.getName()))||this.authoritiesService.getRol(principal.getName()).equals("admin")) {
+		if(this.authoritiesService.getRol(principal.getName()).equals("admin")||this.authoritiesService.getRol(principal.getName()).equals("veterinarian")) {
 			model.put("vet", vet);
 			model.put("specialties", this.vetService.findSpecialties());
 			return "vets/CreateOrEditVet";
@@ -189,7 +189,7 @@ public class VetController {
     }*/
 	
 	@GetMapping("/vet/{vetId}/delete")
-    public String deleteVetForVet(@PathVariable("vetId") int vetId, ModelMap model) {
+    public String deleteVetForVet(@PathVariable("vetId") int vetId, ModelMap model, Principal principal) {
         Optional<Vet> vet =this.vetService.findVetByIdOpt(vetId);
         if (vet.isPresent()) {
             this.vetService.deleteVet(vet.get());
