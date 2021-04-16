@@ -34,7 +34,7 @@ In the retrospective meeting, the team has a discussion about those results.
 
 | Day           | Badayco   | Daniel M.  | Daniel S.     | Daniel T.     | Francisco     | Manuel     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
-| 09/04         | :smile:        | :smile:                |  :smile:              |     :smile:           |                |    :smile:            |
-| 16/04        | :smile:              |  :smile:              | :smile:               |     :smile:           |                |   :smile:             |
+| 09/04         | :smile:        | :smile:                |  :smile:              |     :smile:           |   😸             |    :smile:            |
+| 16/04        | :smile:              |  :smile:              | :smile:               |     :smile:           |       :smile:         |   :smile:             |
 |          |               |               |                |                |                |                |
 |         |              |               |                |                |                |                |
