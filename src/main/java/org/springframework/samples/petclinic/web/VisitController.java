@@ -15,16 +15,21 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -89,5 +94,20 @@ public class VisitController {
 		model.put("visits", this.petService.findPetById(petId).getVisits());
 		return "visitList";
 	}
+	
+	@GetMapping(value = "/owners/{ownerId}/pets/{petId}/visits/{visitId}/delete")
+	public String showVisits(@PathVariable int petId,@PathVariable int visitId,@PathVariable int ownerId, ModelMap model) { 
+        try {
+			this.petService.deleteVisit(visitId);
+			model.addAttribute("message","Visita eliminada correctamente.");
+			model.put("visits",  this.petService.findPetById(petId).getVisits());
+			
+		}catch(Exception e){
+			model.addAttribute("message","Visita no encontrada.");
+			model.put("visits",  this.petService.findPetById(petId).getVisits());
+		}
+        return "redirect:/owners/{ownerId}";
+
+    }
 
 }

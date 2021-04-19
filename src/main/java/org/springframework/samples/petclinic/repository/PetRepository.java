@@ -18,11 +18,16 @@ package org.springframework.samples.petclinic.repository;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring Data JPA specialization of the {@link PetRepository} interface
@@ -30,7 +35,7 @@ import org.springframework.samples.petclinic.model.PetType;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface PetRepository extends Repository<Pet, Integer> {
+public interface PetRepository extends Repository<Pet, Integer>, CrudRepository<Pet, Integer> {
 
 	/**
 	 * Retrieve all <code>PetType</code>s from the data store.
@@ -47,11 +52,21 @@ public interface PetRepository extends Repository<Pet, Integer> {
 	 */
 	Pet findById(int id) throws DataAccessException;
 
-	/**
-	 * Save a <code>Pet</code> to the data store, either inserting or updating it.
-	 * @param pet the <code>Pet</code> to save
-	 * @see BaseEntity#isNew
-	 */
-	void save(Pet pet) throws DataAccessException;
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Pet WHERE owner.id =:ownerId AND id =:petId")
+	public void deletePet(@Param("ownerId") int ownerId, @Param("petId") int petId);
 
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Visit WHERE pet.id =:petId")
+	public void deleteVisits(@Param("petId") int petId); 
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Booking WHERE pet.id =:petId")
+	public void deleteBookings(@Param("petId") int petId);
+	
+	
+	
 }

@@ -19,9 +19,13 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Booking;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.repository.BookingRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
@@ -42,12 +46,15 @@ public class PetService {
 	
 	private VisitRepository visitRepository;
 	
+	private BookingRepository bookingRepository;
+	
 
 	@Autowired
 	public PetService(PetRepository petRepository,
-			VisitRepository visitRepository) {
+			VisitRepository visitRepository, BookingRepository bookingRepository) {
 		this.petRepository = petRepository;
 		this.visitRepository = visitRepository;
+		this.bookingRepository = bookingRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -74,9 +81,35 @@ public class PetService {
                 petRepository.save(pet);                
 	}
 
-
 	public Collection<Visit> findVisitsByPetId(int petId) {
 		return visitRepository.findByPetId(petId);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Pet> findAll() {
+		return (Collection<Pet>) this.petRepository.findAll();
+    }
+		
+	@Transactional
+	public void deletePet(Pet pet) throws DataAccessException {
+		this.petRepository.deleteBookings(pet.getId());
+		this.petRepository.deleteVisits(pet.getId());
+		Integer ownerId=pet.getOwner().getId();
+		this.petRepository.deletePet(ownerId,pet.getId());
+    }
 
+	@Transactional
+	public void saveBooking(Booking booking) throws DataAccessException {
+		bookingRepository.save(booking);
+	}
+	
+	public Collection<Booking> findBookingsByPetId(int bookingId) {
+		return bookingRepository.findByPetId(bookingId);
+	}
+	
+	@Transactional
+	public void deleteVisit(int visitId) throws DataAccessException {
+		 this.visitRepository.deleteVisit(visitId);
+    }
+	
 }

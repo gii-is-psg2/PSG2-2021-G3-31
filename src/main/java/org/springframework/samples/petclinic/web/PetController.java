@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.BeanUtils;
@@ -132,7 +134,7 @@ public class PetController {
      * @param model
      * @return
      */
-        @PostMapping(value = "/pets/{petId}/edit")
+    @PostMapping(value = "/pets/{petId}/edit")
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
@@ -151,4 +153,23 @@ public class PetController {
 		}
 	}
 
+    @GetMapping("/pets/{petId}/delete")
+    public String deletePet(@PathVariable("petId") int petId, ModelMap model) {
+        try {
+        	Pet pet = this.petService.findPetById(petId);
+            this.petService.deletePet(pet);
+			model.addAttribute("message","Mascota eliminada correctamente.");
+			Collection<Pet> pets = this.petService.findAll();
+			model.put("pet", pets);
+			
+		}catch(Exception e){
+			model.addAttribute("message","Mascota no encontrada.");
+			Collection<Pet> pets = this.petService.findAll();
+			model.put("pet", pets);
+		}
+        
+        return "redirect:/owners/{ownerId}";
+    }
+	
+	
 }
