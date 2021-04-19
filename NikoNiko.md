@@ -1,4 +1,4 @@
-# Niko Niko Calendar of team X
+# Niko Niko Calendar of team G3-31
 ## Introduction
 Some interesting links about what a Niko Niko calendar is and opinions about its use in software development:
 
@@ -35,6 +35,6 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day           | Badayco   | Daniel M.  | Daniel S.     | Daniel T.     | Francisco     | Manuel     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
 | 09/04         | :smile:        | :smile:                |  :smile:              |     :smile:           |   😃             |    :smile:            |
-| 16/04        | :smile:              |  :smile:              | :smile:               |     :smile:           |       😃:         |   :smile:             |
-|          |               |               |                |                |                |                |
+| 16/04        | :smile:              |  :smile:              | :smile:               |     :smile:           |       😃         |   :smile:             |
+| 19/04         |               |               |                |                |                |   😐             |
 |         |              |               |                |                |                |                |
