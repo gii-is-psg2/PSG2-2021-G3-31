@@ -163,7 +163,7 @@ public class VetController {
 
 	@GetMapping("/vets/{vetId}/delete")
     public String deleteVet(@PathVariable("vetId") int vetId, ModelMap model) {
-        Optional<Vet> vet =this.vetService.findVetById(vetId);
+        Optional<Vet> vet =this.vetService.findVetByIdOpt(vetId);
         if (vet.isPresent()) {
             this.vetService.deleteVet(vet.get());
             model.addAttribute("message","Veterinario eliminado correctamente.");

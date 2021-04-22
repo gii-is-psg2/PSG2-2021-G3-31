@@ -42,7 +42,6 @@ public interface VetRepository extends Repository<Vet, Integer>,CrudRepository<V
 	 */
 	Collection<Vet> findAll() throws DataAccessException;
 	
-	void save(Vet vet) throws DataAccessException;
 	
 	@Query("SELECT vet FROM Vet vet WHERE vet.user.username LIKE ?1")
 	Vet findVetByUsername(String username) throws DataAccessException;
