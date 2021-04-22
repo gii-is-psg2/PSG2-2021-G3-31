@@ -38,4 +38,4 @@ In the retrospective meeting, the team has a discussion about those results.
 | 16/04        | :smile:              |  :smile:              | :smile:               |     :smile:           |       😃         |   :smile:             |
 | 19/04         |               |               |                |                |    😐            |                |
 | 21/04        |              |               |  😐              |                |                |                |
-| 22/04        |              |               |  😐              |                |                | :neutral_face:                |
+| 22/04        |              |               |              |                |  :neutral_face:              | :neutral_face:                |
