@@ -55,7 +55,7 @@ public class VetService {
 
 
 	@Autowired
-	public VetService(VetRepository vetRepository) {
+	public VetService(VetRepository vetRepository,AuthoritiesService authoritiesService) {
 		this.vetRepository = vetRepository;
 	}		
 
