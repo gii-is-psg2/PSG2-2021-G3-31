@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "causas")
@@ -23,8 +24,20 @@ public class Causa extends BaseEntity {
     
     @NotNull
     private Double recaudacion;
+    
+    @NotNull
+    @Positive
+    private Double objetivo;
 
-    public String getNombre() {
+    public Double getObjetivo() {
+		return objetivo;
+	}
+
+	public void setObjetivo(Double objetivo) {
+		this.objetivo = objetivo;
+	}
+
+	public String getNombre() {
         return nombre;
     }
 
