@@ -31,4 +31,36 @@ public class Donacion extends BaseEntity {
     @JoinColumn(name = "id_owner")
     @NotNull
     private Owner donante;
+
+	public LocalDate getFechaDonacion() {
+		return fechaDonacion;
+	}
+
+	public void setFechaDonacion(LocalDate fechaDonacion) {
+		this.fechaDonacion = fechaDonacion;
+	}
+
+	public Double getCantidadDonada() {
+		return cantidadDonada;
+	}
+
+	public void setCantidadDonada(Double cantidadDonada) {
+		this.cantidadDonada = cantidadDonada;
+	}
+
+	public Causa getCausa() {
+		return causa;
+	}
+
+	public void setCausa(Causa causa) {
+		this.causa = causa;
+	}
+
+	public Owner getDonante() {
+		return donante;
+	}
+
+	public void setDonante(Owner donante) {
+		this.donante = donante;
+	}
 }
