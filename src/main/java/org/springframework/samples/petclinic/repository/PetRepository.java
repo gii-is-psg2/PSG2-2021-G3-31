@@ -44,6 +44,9 @@ public interface PetRepository extends Repository<Pet, Integer>, CrudRepository<
 	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
 	List<PetType> findPetTypes() throws DataAccessException;
 	
+	@Query("SELECT p FROM Pet p WHERE p.inProcessToBeAdopted = TRUE") 
+	public List<Pet> findAdoptablePets();
+	
 	/**
 	 * Retrieve a <code>Pet</code> from the data store by id.
 	 * @param id the id to search for
@@ -66,6 +69,8 @@ public interface PetRepository extends Repository<Pet, Integer>, CrudRepository<
 	@Modifying
 	@Query("DELETE FROM Booking WHERE pet.id =:petId")
 	public void deleteBookings(@Param("petId") int petId);
+	
+	
 	
 	
 	
