@@ -113,9 +113,8 @@ public class PetService {
 		 this.visitRepository.deleteVisit(visitId);
     }
 	
-	@Transactional(readOnly = true)
-	public List<Pet> findAdoptablePets() throws DataAccessException {
-		return petRepository.findAdoptablePets();
+	@Transactional
+	public Collection<Pet> findPetsInAdoption() throws DataAccessException {
+		return petRepository.findPetsInAdoption();
 	}
-	
 }
