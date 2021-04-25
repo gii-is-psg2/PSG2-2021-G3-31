@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.repository.DonacionRepository;
@@ -13,6 +14,10 @@ public class DonacionService {
 	
 	private DonacionRepository donacionRepository;
 	
+	@Autowired
+	public DonacionService(DonacionRepository donacionRepository) {
+		this.donacionRepository = donacionRepository;
+	}
 	
 	@Transactional(readOnly = true)
 	public Donacion findById(int id) throws DataAccessException{
@@ -25,7 +30,7 @@ public class DonacionService {
 	}
 	
 	@Transactional
-	public void saveCausa(Donacion donacion) throws DataAccessException{
+	public void saveDonacion(Donacion donacion) throws DataAccessException{
 			this.donacionRepository.save(donacion);
 	}
 

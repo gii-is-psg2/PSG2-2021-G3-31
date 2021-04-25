@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.CausaService;
-import org.springframework.samples.petclinic.service.exceptions.ObjetivoAlcanzadoException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -31,15 +31,21 @@ public class CausaController {
 		this.authoritiesService =authoritiesService;
 	}
 	
-	@GetMapping(value = { "/causas" })
-	public String ListCausas(Map<String, Object> model) {
+	@ModelAttribute("rol")
+	public String populaterol(final Principal principal) {
+		return this.authoritiesService.getRol(principal.getName());
+	}
+	
+	@GetMapping(value ="/causas" )
+	public String ListCausas(Principal principal, Map<String, Object> model) {
 		List<Causa> causas = this.causaService.findAll();
 		model.put("causas", causas);
+		//model.put("rol", this.authoritiesService.getRol(principal.getName()));
 		return "causas/causasList";
 	}
 	
-	@GetMapping(value = { "/causas/{causaId}" })
-	public String showCausa(@PathVariable("causaId") int causaId,Map<String, Object> model) {
+	@GetMapping(value = "/causas/{causaId}" )
+	public String showCausa(@PathVariable("causaId") int causaId, Map<String, Object> model) {
 		Causa causa = this.causaService.findById(causaId);
 		model.put("causa", causa);
 		return "causas/causaShow";
@@ -50,26 +56,21 @@ public class CausaController {
 		Causa causa = new Causa();
 		if(this.authoritiesService.getRol(principal.getName()).equals("admin")) {
 		model.put("causa", causa);
-		return "causas/CreateCausa";
+		return "causas/createCausa";
 		}else {
 			return "exception";
 		}
 	}
 
 	@PostMapping(value = "/causas/new")
-	public String processCreationForm(@Valid Causa causa, BindingResult result, ModelMap model) throws ObjetivoAlcanzadoException{
+	public String processCreationForm(@Valid Causa causa, BindingResult result, ModelMap model){
 		causa.setRecaudacion(0.0);
 		if(result.hasErrors()) {
 			model.put("causa", causa);
-			return "causas/CreateCausa";
+			System.out.println(result.getAllErrors());
+			return "causas/createCausa";
 		}else {
-			try {
-				this.causaService.saveCausa(causa);
-			}catch(ObjetivoAlcanzadoException ex) {
-				result.rejectValue("objetivo", "La recaudación no pueden ser mayores al objetivo", 
-						"La recaudación no pueden ser mayores al objetivo");
-			}
-			return "causas/causasList"; 
+			return "redirect:/causas"; 
 		}
 	}
 	

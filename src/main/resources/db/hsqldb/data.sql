@@ -103,4 +103,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 INSERT INTO bookings(id,fecha_entrada,fecha_salida,room,pet_id) VALUES (1, '2012-06-08', '2012-06-09', 10, 1);
 INSERT INTO bookings(id,fecha_entrada,fecha_salida,room,pet_id) VALUES (2, '2016-06-08', '2016-06-09', 11, 2);
 
+INSERT INTO causas(id,nombre,organizacion,descripcion,recaudacion,objetivo) VALUES (1, 'Gatos abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los gatos abandonados', 50.0, 3000.0);
+INSERT INTO causas(id,nombre,organizacion,descripcion,recaudacion,objetivo) VALUES (2, 'Mascotas abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los animales abandonados',40.0, 1000.0);
+
+
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (1, '2020-10-10', 20.5, 1, 1);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (2, '2020-10-11', 29.5, 1, 2);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 1, 1);
+
 
