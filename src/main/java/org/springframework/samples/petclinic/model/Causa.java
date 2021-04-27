@@ -22,11 +22,10 @@ public class Causa extends BaseEntity {
     @NotEmpty(message = "La descripcion no puede estar vacio")
     private String descripcion;
     
-    @NotNull
     private Double recaudacion;
     
     @NotNull
-    @Positive
+    @Positive(message="La cantidad debe ser mayor 0")
     private Double objetivo;
 
     public Double getObjetivo() {

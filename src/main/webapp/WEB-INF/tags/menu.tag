@@ -42,6 +42,22 @@
 				</sec:authorize>
 				
 				<sec:authorize access="hasAnyAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'causas'}" url="/causas"
+					title="Causas">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Causas</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'causas'}" url="/causas"
+					title="Causas">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Causas</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vets"
 					title="Veterinarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>

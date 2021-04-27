@@ -13,9 +13,7 @@ import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.service.CausaService;
 import org.springframework.samples.petclinic.service.DonacionService;
 import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.exceptions.ObjetivoAlcanzadoException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,47 +36,50 @@ public class DonacionController {
 		this.causaService = causaService;
 	}
 	
-	@GetMapping(value = {  "/causas/{causaId}" })
+	@GetMapping(value = "/causas/{causaId}/donaciones")
 	public String ListDonaciones(@PathVariable("causaId") int causaId,Map<String, Object> model) {
 		List<Donacion> donaciones = this.donacionService.findAllDonacionForCausa(causaId);
 		model.put("donaciones", donaciones);
 		return "donaciones/donacionesList";
 	}
 	
-	@GetMapping(value = { "/causas/{causaId}/donacion/{donacionId}" })
+	@GetMapping(value = "/causas/{causaId}/donaciones/{donacionId}")
 	public String showCausa(@PathVariable("causaId") int causaId, @PathVariable("donacionId") int donacionId,Map<String, Object> model) {
 		Donacion donacion = this.donacionService.findById(donacionId);
 		model.put("donacion", donacion);
 		return "donaciones/donacionShow";
 	}
 	
-	@GetMapping(value = "/causas/{causaId}/donacion/new")
-	public String initCreationForm(@PathVariable("causaId") int causaId, @PathVariable("donacionId") int donacionId, final Principal principal,Map<String, Object> model) {
+	@GetMapping(value = "/causas/{causaId}/donaciones/new")
+	public String initCreationForm(@PathVariable("causaId") int causaId, final Principal principal,Map<String, Object> model) {
 		Donacion donacion = new Donacion();
 		donacion.setDonante(this.ownerService.findOwnerByUsername(principal.getName()));
-		donacion.setCausa(this.causaService.findById(causaId));
 		model.put("donacion", donacion);
-		return "donaciones/CreateDonacion";
+		return "donaciones/createDonacion";
 		
 	}
 
-	@PostMapping(value = "/causas/{causaId}/donacion/new")
-	public String processCreationForm(@Valid Donacion donacion, BindingResult result, ModelMap model) throws ObjetivoAlcanzadoException{
-		Causa causa=donacion.getCausa();
-		causa.setRecaudacion(donacion.getCantidadDonada()+donacion.getCausa().getRecaudacion());
+	@PostMapping(value = "/causas/{causaId}/donaciones/new")
+	public String processCreationForm(@PathVariable("causaId") int causaId, @Valid Donacion donacion, BindingResult result, Map<String, Object> model){
 		donacion.setFechaDonacion(LocalDate.now());
-		if(result.hasErrors()) {
-			model.put("donacion", donacion);
-			return "causas/CreateCausa";
+		Causa causa = this.causaService.findById(causaId);
+		double suma = donacion.getCantidadDonada()+causa.getRecaudacion();
+		if(suma>causa.getObjetivo()) {
+			result.rejectValue("cantidadDonada", "La recaudación no pueden ser mayores al objetivo", 
+					"La recaudación no pueden ser mayores al objetivo");
+			return "donaciones/createDonacion";
 		}else {
-			try {
+			causa.setRecaudacion(suma);
+			donacion.setCausa(causa);
+			if(result.hasErrors()) {
+			model.put("donacion", donacion);
+			System.out.println(result.getAllErrors());
+			return "donaciones/createDonacion";
+			}else {
 				this.causaService.saveCausa(causa);
-			}catch(ObjetivoAlcanzadoException ex) {
-				result.rejectValue("objetivo", "La recaudación no pueden ser mayores al objetivo", 
-						"La recaudación no pueden ser mayores al objetivo");
+				this.donacionService.saveDonacion(donacion);
+			return "redirect:/causas"; 
 			}
-			this.donacionService.saveCausa(donacion);
-			return "donaciones/CreateDonacion"; 
 		}
 	}
 
