@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Booking;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedFechaEntradaPetBookingException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedFechaSalidaPetBookingException;
+import org.springframework.samples.petclinic.service.exceptions.InvalidDatePetBookingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -32,27 +35,40 @@ public class BookingController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@ModelAttribute("booking")
-	public Booking loadPetWithBooking(@PathVariable("petId") int petId) {
+//	@ModelAttribute("booking")
+//	public Booking loadPetWithBooking(int petId) {
+//		Pet pet = this.petService.findPetById(petId);
+//		Booking booking = new Booking();
+//		pet.addBooking(booking);
+//		return booking;
+//	}
+	
+	@GetMapping(value = "/owners/{ownerId}/pets/{petId}/bookings/new")
+	public String initNewBookingForm(@PathVariable("petId") int petId, Map<String, Object> model) {
 		Pet pet = this.petService.findPetById(petId);
 		Booking booking = new Booking();
 		pet.addBooking(booking);
-		return booking;
-	}
-	
-	@GetMapping(value = "/owners/*/pets/{petId}/bookings/new")
-	public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
+		model.put("booking", booking);
 		return "pets/createOrUpdateBookingForm";
 	}
 
 	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/bookings/new")
-	public String processNewVisitForm(@Valid Booking booking, BindingResult result) {
+	public String processNewBookingForm(@Valid Booking booking, BindingResult result, @PathVariable("petId") int petId) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateBookingForm";
 		}
-		else {
+		try {
 			this.petService.saveBooking(booking);
 			return "redirect:/owners/{ownerId}";
+		} catch(InvalidDatePetBookingException ex) {
+			result.rejectValue("fechaEntrada", "invalid date", "La fecha de entrada debe ser posterior a la fecha de salida");
+			return "pets/createOrUpdateBookingForm";
+		} catch(DuplicatedFechaEntradaPetBookingException ex) {
+			result.rejectValue("fechaEntrada", "invalid date", "Existe una reserva que coincide con la fecha de entrada para esta mascota");
+			return "pets/createOrUpdateBookingForm";
+		} catch(DuplicatedFechaSalidaPetBookingException ex) {
+			result.rejectValue("fechaSalida", "invalid date", "Existe una reserva que coincide con la fecha de salida para esta mascota");
+			return "pets/createOrUpdateBookingForm"; 
 		}
 	}
 
