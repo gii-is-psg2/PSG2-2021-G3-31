@@ -19,6 +19,8 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,9 +57,6 @@ public class Pet extends NamedEntity {
 	@ManyToOne
 	@JoinColumn(name = "type_id")
 	private PetType type;
-	
-	@Column(name = "in_adoption")
-	private Boolean inAdoption;
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
@@ -69,18 +68,13 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Booking> bookings;
 	
-	public Pet() {
-		super();
-		setinAdoption(false);
-	}
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	private Set<Adoption> adoptions;
 	
-	public Boolean getinAdoption() {
-		return inAdoption;
-	}
-
-	public void setinAdoption(Boolean inAdoption) {
-		this.inAdoption = inAdoption;
-	}
+	@NotNull
+	@Column(name = "in_adoption")
+	private Boolean inAdoption;
+	
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
@@ -104,6 +98,14 @@ public class Pet extends NamedEntity {
 
 	public void setOwner(Owner owner) {
 		this.owner = owner;
+		
+	}
+	
+	public Boolean getInAdoption() {
+		return this.inAdoption;
+	}
+	public void setInAdoption(Boolean inAdoption) {
+		this.inAdoption = inAdoption;
 	}
 
 	protected Set<Visit> getVisitsInternal() {
@@ -148,5 +150,36 @@ public class Pet extends NamedEntity {
 	public void addBooking(Booking booking) {
 		getBookingsInternal().add(booking);
 		booking.setPet(this);
+	}
+	
+	protected Set<Adoption> getAdoptionsInternal() {
+		if (this.adoptions == null) {
+			this.adoptions  = new HashSet<>();
+		}
+		return this.adoptions;
+	}
+	
+	protected void setAdoptionsInternal(Set<Adoption> adoptions) {
+		this.adoptions = adoptions;
+	}
+	public List<Adoption> getAdoptions() {
+		List<Adoption> sortedAdoptions = new ArrayList<>(getAdoptionsInternal());
+		PropertyComparator.sort(sortedAdoptions, new MutableSortDefinition("date", false, false));
+		return Collections.unmodifiableList(sortedAdoptions);
+	}
+	
+
+	public void addAdoption(Adoption adoption) {
+		getAdoptionsInternal().add(adoption);
+		adoption.setPet(this);
+	}
+	public void removeAdoption(Adoption adoption) {
+		List<Adoption> adoptions = this.getAdoptions();
+		for (Adoption a : adoptions) {
+			if (a.getDescription() == null) {
+				this.adoptions.remove(a);
+			}
+		}
+		this.adoptions.remove(adoption);
 	}
 }

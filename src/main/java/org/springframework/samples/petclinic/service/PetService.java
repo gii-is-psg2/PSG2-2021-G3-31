@@ -113,8 +113,8 @@ public class PetService {
 		 this.visitRepository.deleteVisit(visitId);
     }
 	
-	@Transactional
-	public Collection<Pet> findPetsInAdoption() throws DataAccessException {
+	@Transactional(readOnly = true)
+	public Iterable<Pet> findPetsInAdoption(){
 		return petRepository.findPetsInAdoption();
 	}
 }
