@@ -15,7 +15,7 @@
         <div class="form-group has-feedback">
         	<petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Organizacion" name="organizacion"/>
-            <petclinic:inputField label="Objetivo" name="objetivo"/>        
+            <petclinic:inputField label="Cantidad objetivo" name="objetivo"/>        
             <petclinic:inputField label="Descripcion" name="descripcion"/>
         </div>
         <div class="form-group">

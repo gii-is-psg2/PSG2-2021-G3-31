@@ -13,7 +13,7 @@
         <tr>
             <th>Nombre</th>
             <th>Organizacion</th>
-            <th>Objetivo</th>
+            <th>Cantidad objetivo</th>
             <th>Recaudacion</th>
             <th></th>
         </tr>

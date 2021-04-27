@@ -18,7 +18,7 @@
             <td><c:out value="${causa.organizacion}"/></td>
         </tr>
         <tr>
-            <th>Objetivo</th>
+            <th>Cantidad objetivo</th>
             <td><c:out value="${causa.objetivo}"/></td>
         </tr>
         <tr>

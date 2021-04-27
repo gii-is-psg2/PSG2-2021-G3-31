@@ -70,6 +70,7 @@ public class CausaController {
 			System.out.println(result.getAllErrors());
 			return "causas/createCausa";
 		}else {
+			this.causaService.saveCausa(causa);
 			return "redirect:/causas"; 
 		}
 	}
