@@ -10,11 +10,15 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "adoptions")
-public class Adoption extends NamedEntity{
+public class Adoption extends BaseEntity{
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id")
 	private Owner Owner;
+	
+	@NotEmpty
+	@Column(name = "possible_owner")
+	private String possibleOwner;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pet_id")
@@ -44,7 +48,15 @@ public class Adoption extends NamedEntity{
 	public void setOwner(Owner owner) {
 		Owner = owner;
 	}
-
+	
+	public String getPossibleOwner() {
+		return this.possibleOwner;
+	}
+	
+	public void setPossibleOwner(String possibleOwner) {
+		this.possibleOwner = possibleOwner;
+	}
+	
 	public Pet getPet() {
 		return pet;
 	}

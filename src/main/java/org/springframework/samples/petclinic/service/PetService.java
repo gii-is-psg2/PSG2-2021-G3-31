@@ -133,4 +133,8 @@ public class PetService {
 		 this.visitRepository.deleteVisit(visitId);
     }
 	
+	@Transactional(readOnly = true)
+	public Iterable<Pet> findPetsInAdoption(){
+		return petRepository.findPetsInAdoption();
+	}
 }
