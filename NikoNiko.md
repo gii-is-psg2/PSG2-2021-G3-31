@@ -41,4 +41,4 @@ In the retrospective meeting, the team has a discussion about those results.
 | 22/04        |              | :smile:                |              |              |  :neutral_face:              | :neutral_face:                |
 | 23/04        |  :smiley:    |   :smile:              | :smile:          |  :smiley:  |     😃           |  :smiley:               |
 | 24/04        |  :neutral_face:    |                 |           |    |               |     :smiley:            |
-| 27/04        |  :neutral_face:    |                 |           |    |               |               |
+| 27/04        |  :neutral_face:    |                 |  :smile:  |    |               |               |
