@@ -15,7 +15,12 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -28,7 +33,10 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.BookingRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedFechaEntradaPetBookingException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedFechaSalidaPetBookingException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.service.exceptions.InvalidDatePetBookingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -98,10 +106,23 @@ public class PetService {
 		this.petRepository.deletePet(ownerId,pet.getId());
     }
 
-	@Transactional
-	public void saveBooking(Booking booking) throws DataAccessException {
-		bookingRepository.save(booking);
-	}
+	@Transactional(rollbackFor = {InvalidDatePetBookingException.class, DuplicatedFechaEntradaPetBookingException.class, DuplicatedFechaSalidaPetBookingException.class})
+	public void saveBooking(Booking booking) throws DataAccessException, InvalidDatePetBookingException, DuplicatedFechaEntradaPetBookingException, DuplicatedFechaSalidaPetBookingException {
+		if(booking.getFechaEntrada().isAfter(booking.getFechaSalida())) {
+			throw new InvalidDatePetBookingException();
+		}		
+
+		List<Booking> l = bookingRepository.findByPetId(booking.getPet().getId());
+		for(Booking b: l) {
+			if(booking.getFechaEntrada().isAfter(b.getFechaEntrada()) && booking.getFechaEntrada().isBefore(b.getFechaSalida())) {
+				throw new DuplicatedFechaEntradaPetBookingException();
+			}
+			if(booking.getFechaSalida().isAfter(b.getFechaEntrada()) && booking.getFechaSalida().isBefore(b.getFechaSalida())) {
+				throw new DuplicatedFechaSalidaPetBookingException();
+			}
+		}
+			bookingRepository.save(booking);
+	}	
 	
 	public Collection<Booking> findBookingsByPetId(int bookingId) {
 		return bookingRepository.findByPetId(bookingId);

@@ -9,7 +9,8 @@
     <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#fechaEntrada").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#fechaSalida").datepicker({dateFormat: 'yy/mm/dd'});
             });
         </script>
     </jsp:attribute>
@@ -43,7 +44,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="petId" value="${booking.pet.id}"/>
+                    <input type="hidden" name="pet" value="${booking.pet.id}"/>
                     <button class="btn btn-default" type="submit">Reservar</button>
                 </div>
             </div>
