@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Adoption;
-import org.springframework.samples.petclinic.model.AdoptionState;
+import org.springframework.samples.petclinic.model.EstadoAdopcion;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.AdoptionService;
@@ -57,16 +58,24 @@ public class AdoptionController {
 	
 	@GetMapping(value="/pendingAdoptionsList")
 	public String pendingAdoptionList(ModelMap modelMap) {
-		modelMap.addAttribute("pendingAdoption", AdoptionState.PENDING);
+		EstadoAdopcion estado = this.adoptionService.findEstadoById(1);
+		modelMap.addAttribute("pendingAdoption", estado);
 		List<Adoption> adoptions = (List<Adoption>)this.adoptionService.findAll();
 		modelMap.addAttribute("adoptions", this.adoptionService.findAllAdoptionsWithPendingState(adoptions));
 		return "adoptions/stateAdoptionList";
 	}
 	
 	@GetMapping(value="/allAdoptionsList")
-	public String allAdoptionList(ModelMap modelMap) {
-		modelMap.addAttribute("pendingAdoption", AdoptionState.PENDING);
+	public String allAdoptionList(ModelMap modelMap/***/, Authentication authentication/***/) {
+		EstadoAdopcion estado = this.adoptionService.findEstadoById(1);
+		modelMap.addAttribute("pendingAdoption", estado);
 		modelMap.addAttribute("adoptions", this.adoptionService.findAll());
+		
+		//////
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		Owner possibleOwner = this.ownerService.findOwnerByUsername(userDetails.getUsername());
+		modelMap.addAttribute("possibleOwner", possibleOwner);
+		//////
 		return "adoptions/stateAdoptionList";
 	}
 
@@ -84,88 +93,73 @@ public class AdoptionController {
 			String possibleOwnerName = possibleOwner.getUser().getUsername();
 
 			Owner owner = this.petService.findPetById(petId).getOwner();
-			String ownerName = owner.getUser().getUsername();
 
-		
-			model.put("possibleOwner", possibleOwnerName);
-			model.put("originalOwner", ownerName);
-			model.put("adoption",new Adoption());
+			Adoption adoption = new Adoption();
+			adoption.setOwner(owner);
+			adoption.setPossibleOwner(possibleOwnerName);
+			Pet pet = this.petService.findPetById(petId);
+			adoption.setPet(pet);
+			model.put("adoption", adoption);
+			model.put("pet", pet);
 			return "/adoptions/applicationForm";
 		}
 	}
 
 	@PostMapping(value = "/{petId}/applicationForm")
 	public String sendApplicationForm(@PathVariable("petId") int petId,@Valid Adoption adoption, BindingResult result, 
-			Map<String, Object> model, Authentication authentication) throws DataAccessException, DuplicatedPetNameException {
+			Map<String, Object> model, Principal principal) throws DataAccessException, DuplicatedPetNameException {
 		Pet pet = this.petService.findPetById(petId);
+		Owner owner = this.petService.findPetById(petId).getOwner();
+		Owner possibleOwner = this.ownerService.findOwnerByUsername(principal.getName());
+		adoption.setOwner(owner);
+		adoption.setPossibleOwner(possibleOwner.getUser().getUsername());
+		model.put("pet", pet);
 		
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		Owner possibleOwner = this.ownerService.findOwnerByUsername(userDetails.getUsername());
 		if (result.hasErrors()) {
-			String possibleOwnerName = possibleOwner.getUser().getUsername();
+			System.out.println(result.getAllErrors());
 
-			Owner owner = pet.getOwner();
-			String ownerName = owner.getUser().getUsername();
-			
-			model.put("possibleOwner", possibleOwnerName);
-			model.put("originalOwner", ownerName);
-			
 			return "/adoptions/applicationForm";
 		} else {
-			Adoption alreadyExists = adoptionService.findAdoptionByPossibleOwnerAndPet(possibleOwner.getUser().getUsername()
+			Integer alreadyExists = adoptionService.findAdoptionByPossibleOwnerAndPet(possibleOwner.getUser().getUsername()
 					, pet);
-			if(alreadyExists!=null){
-				return "/adoptions/existingAdoption";
+			if(alreadyExists>=1){
+				result.rejectValue("description", "Ya se ha solicitado una adopcón para esta mascota", 
+						"Ya se ha solicitado una adopcón para esta mascota");
+				return "/adoptions/applicationForm";
 			}else {
-				adoption.setPet(pet);
-				adoption.setAdoptionStatus(AdoptionState.PENDING);
+				EstadoAdopcion estado = this.adoptionService.findEstadoById(1);
+				adoption.setEstadoAdopcion(estado);
 				pet.addAdoption(adoption);
 
 				this.adoptionService.saveAdoption(adoption);
 				this.petService.savePet(pet);
 
-				model.put("adoption",adoption);
-				return "welcome";	
+				return "redirect:/adoptions/allAdoptionsList";	
 				}
 		}
 	}
 	
 	
 	@GetMapping(value="/accept/{adoptionId}")
-	public String acceptAdoptionApplication(@PathVariable("adoptionId") int adoptionId, Authentication authentication,
+	public String acceptAdoptionApplication(@PathVariable("adoptionId") int adoptionId, Principal principal,
 		Map<String, Object> model) throws Exception {
-		Boolean authenticated = authentication.isAuthenticated();
 		Adoption adoption = this.adoptionService.findAdoptionById(adoptionId);
 		
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		Owner existingOwner = this.ownerService.findOwnerByUsername(userDetails.getUsername());
+		this.adoptionService.acceptAdoptionApplication(adoption);
 		
-		 if(existingOwner!=null || !authenticated){
-			return "welcome";
-		}else {
-			this.adoptionService.acceptAdoptionApplication(adoption);
-			
-			Owner possibleOwner = this.ownerService.findOwnerByUsername(adoption.getPossibleOwner());
-			Owner owner = this.ownerService.findOwnerByUsername(adoption.getOwner().getUser().getUsername());
-			Pet pet = adoption.getPet();
-			
-			owner.removePet(pet);
-			possibleOwner.addPet(pet);
-			pet.setInAdoption(false);
-			
-			List<Adoption> adoptions =pet.getAdoptions();
-			for(Adoption adop: adoptions) {
-				if(adop.getAdoptionStatus().equals(AdoptionState.PENDING)) {
-					this.adoptionService.denyAdoptionApplication(adop);
-				}
-			}
-			
-			this.ownerService.saveOwner(owner);
-			this.ownerService.saveOwner(possibleOwner);
-			this.petService.savePet(pet);
-			model.put("pendingAdoption", AdoptionState.PENDING);
-			return "redirect:/adoptions/pendingAdoptionsList";
-		}
+		Owner possibleOwner = this.ownerService.findOwnerByUsername(adoption.getPossibleOwner());
+		Owner owner = this.ownerService.findOwnerByUsername(adoption.getOwner().getUser().getUsername());
+		Pet pet = adoption.getPet();
+		
+		owner.removePet(pet);
+		possibleOwner.addPet(pet);
+		pet.setInAdoption(false);
+		this.adoptionService.acceptAdoptionApplication(adoption);		
+		
+		this.ownerService.saveOwner(owner);
+		this.ownerService.saveOwner(possibleOwner);
+		this.petService.savePet(pet);
+		return "redirect:/adoptions/pendingAdoptionsList";
 	}
 	
 	@GetMapping(value="/deny/{adoptionId}")
@@ -176,13 +170,27 @@ public class AdoptionController {
 		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		Owner existingOwner = this.ownerService.findOwnerByUsername(userDetails.getUsername());
+		System.out.println("---------------------------------------------");
+		System.out.println(existingOwner);
+		System.out.println("---------------------------------------------");
+
 		
-		 if(existingOwner!=null || !authenticated){
+		if(existingOwner==null || !authenticated){
 			return "welcome";
 		}else {
 			this.adoptionService.denyAdoptionApplication(adoption);
-			model.put("pendingAdoption", AdoptionState.PENDING);
+			EstadoAdopcion estado = this.adoptionService.findEstadoById(1);
+			model.put("pendingAdoption", estado);
 			return "redirect:/adoptions/pendingAdoptionsList";
 		}	
 	}
+	
+	
+	/////// AUX ////////
+	@GetMapping(value="/createAdoption")
+	public String createAdoption() {
+		return "adoptions/createAdoption";
+	}
+	
+	////////////////////
 }

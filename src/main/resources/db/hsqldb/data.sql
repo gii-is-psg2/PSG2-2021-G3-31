@@ -109,6 +109,17 @@ INSERT INTO causas(id,nombre,organizacion,descripcion,recaudacion,objetivo) VALU
 
 INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (1, '2020-10-10', 20.5, 1, 1);
 INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (2, '2020-10-11', 29.5, 1, 2);
-INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 1, 1);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 2, 1);
+
+INSERT INTO estado_adopcion VALUES(1, 'Pendiente');
+INSERT INTO estado_adopcion VALUES(2, 'Aceptada');
+INSERT INTO estado_adopcion VALUES(3, 'Rechazada');
+INSERT INTO estado_adopcion VALUES(4, 'Nueva');
+
+INSERT INTO adoptions(id, owner_id, pet_id, estado_adopcion) VALUES (1, 1, 1, 1);
+INSERT INTO adoptions(id, owner_id, pet_id, estado_adopcion) VALUES (2, 3, 3, 1);
+INSERT INTO adoptions(id, owner_id, pet_id, estado_adopcion) VALUES (3, 3, 4, 1);
+INSERT INTO adoptions(id, owner_id, pet_id, estado_adopcion) VALUES (4, 6, 7, 1);
+INSERT INTO adoptions(id, owner_id, pet_id, estado_adopcion) VALUES (5, 6, 8, 1);
 
 

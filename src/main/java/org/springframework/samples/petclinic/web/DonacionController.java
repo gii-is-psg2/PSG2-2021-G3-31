@@ -63,22 +63,28 @@ public class DonacionController {
 	public String processCreationForm(@PathVariable("causaId") int causaId, @Valid Donacion donacion, BindingResult result, Map<String, Object> model){
 		donacion.setFechaDonacion(LocalDate.now());
 		Causa causa = this.causaService.findById(causaId);
-		double suma = donacion.getCantidadDonada()+causa.getRecaudacion();
-		if(suma>causa.getObjetivo()) {
-			result.rejectValue("cantidadDonada", "La recaudación no pueden ser mayores al objetivo", 
-					"La recaudación no pueden ser mayores al objetivo");
+		if(donacion.getCantidadDonada()==null) {
+			result.rejectValue("cantidadDonada", "Este campo no puede ser nulo", 
+					"Este campo no puede ser nulo");
 			return "donaciones/createDonacion";
 		}else {
-			causa.setRecaudacion(suma);
-			donacion.setCausa(causa);
-			if(result.hasErrors()) {
-			model.put("donacion", donacion);
-			System.out.println(result.getAllErrors());
-			return "donaciones/createDonacion";
+			double suma = donacion.getCantidadDonada()+causa.getRecaudacion();
+			if(suma>causa.getObjetivo()) {
+				result.rejectValue("cantidadDonada", "La recaudación no pueden ser mayores al objetivo", 
+					"La recaudación no pueden ser mayores al objetivo");
+				return "donaciones/createDonacion";
 			}else {
-				this.causaService.saveCausa(causa);
-				this.donacionService.saveDonacion(donacion);
-			return "redirect:/causas"; 
+				causa.setRecaudacion(suma);
+				donacion.setCausa(causa);
+				if(result.hasErrors()) {
+				model.put("donacion", donacion);
+				System.out.println(result.getAllErrors());
+				return "donaciones/createDonacion";
+				}else {
+					this.causaService.saveCausa(causa);
+					this.donacionService.saveDonacion(donacion);
+				return "redirect:/causas"; 
+				}
 			}
 		}
 	}

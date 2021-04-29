@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Adoption;
-import org.springframework.samples.petclinic.model.AdoptionState;
+import org.springframework.samples.petclinic.model.EstadoAdopcion;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.repository.AdoptionRepository;
 import org.springframework.stereotype.Service;
@@ -37,16 +37,16 @@ private AdoptionRepository adoptionRepository;
 		return adoptionRepository.findAll();
 	}
 	
-	@Transactional
-	public Adoption findAdoptionByPossibleOwnerAndPet(String possibleOwner,Pet pet) throws DataAccessException {
+	@Transactional(readOnly = true)
+	public Integer findAdoptionByPossibleOwnerAndPet(String possibleOwner,Pet pet) throws DataAccessException {
 		return adoptionRepository.findByPossibleOwnerAndPet(possibleOwner,pet);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Adoption> findAllAdoptionsWithPendingState(List<Adoption> adoptions){
 		List<Adoption> res = new ArrayList<Adoption>();
 		for (Adoption adoption: adoptions) {
-			if(adoption.getAdoptionStatus().equals(AdoptionState.PENDING)) {
+			if(adoption.getEstadoAdopcion().getName().equals("Pendiente")) {
 				res.add(adoption);
 			}
 		}
@@ -54,14 +54,20 @@ private AdoptionRepository adoptionRepository;
 	}
 	
 	@Transactional
-	public void acceptAdoptionApplication(Adoption adoption) {
-		adoption.setAdoptionStatus(AdoptionState.APPROVED);
+	public void acceptAdoptionApplication(Adoption adoption) throws DataAccessException {
+		EstadoAdopcion estado = this.adoptionRepository.findEstadoById(2);
+		adoption.setEstadoAdopcion(estado);
 		this.adoptionRepository.save(adoption);
 	}
 	
 	@Transactional
-	public void denyAdoptionApplication(Adoption adoption) {
-		adoption.setAdoptionStatus(AdoptionState.REJECTED);
+	public void denyAdoptionApplication(Adoption adoption) throws DataAccessException{
+		EstadoAdopcion estado = this.adoptionRepository.findEstadoById(4);
+		adoption.setEstadoAdopcion(estado);
 		this.adoptionRepository.save(adoption);
+	}
+	
+	public EstadoAdopcion findEstadoById(int id) {
+		return this.adoptionRepository.findEstadoById(id);
 	}
 }

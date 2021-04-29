@@ -57,6 +57,54 @@
 				</petclinic:menuItem>
 				</sec:authorize>
 				
+				<!--  
+				<sec:authorize access="hasAnyAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'adopciones'}" url="/adoptions/allAdoptionsList"
+					title="Adopciones">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Adopciones</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'adopciones'}" url="/adoptions/allAdoptionsList"
+					title="Adopciones">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Adopciones</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				-->
+	
+				<sec:authorize access="isAuthenticated()">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+							<span>Adopciones</span> 
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						
+						<ul class="dropdown-menu">
+							<li>
+								<div class="navbar-login">
+									<div class="row">
+										<a href="<c:url value="/adoptions/createAdoption" />"
+													class="btn btn-block btn-sm">Crear solicitud</a>
+										<a href="<c:url value="/adoptions/allAdoptionsList" />"
+													class="btn btn-block btn-sm">Ver solicitudes</a>
+									</div>
+								</div>
+							</li>
+
+						</ul>
+					</li>
+				</sec:authorize>
+			
+				
+				
+				
+				
+				
+				
 				<sec:authorize access="hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vets"
 					title="Veterinarios">
@@ -65,11 +113,13 @@
 				</petclinic:menuItem>
 				</sec:authorize>
 				
+				<!--  
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="Trigger que provoca una excepción del tipo RuntimeException para ver como se maneja">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
+				-->
 
 			</ul>
 
