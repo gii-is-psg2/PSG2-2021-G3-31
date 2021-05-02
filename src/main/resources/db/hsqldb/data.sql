@@ -107,8 +107,8 @@ INSERT INTO causas(id,nombre,organizacion,descr,recaudacion,objetivo) VALUES (1,
 INSERT INTO causas(id,nombre,organizacion,descr,recaudacion,objetivo) VALUES (2, 'Mascotas abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los animales abandonados',40.0, 1000.0);
 
 
-INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (1, '2020-10-10', 20.5, 1, 1);
-INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (2, '2020-10-11', 29.5, 1, 2);
-INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 2, 1);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (1, '2020-10-10', 20.5, 1, 9);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (2, '2020-10-11', 29.5, 1, 8);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 2, 8);
 
 
