@@ -87,6 +87,11 @@ public class OwnerService {
 	}
 	
 	@Transactional
+    public void saveOwnerOnly(Owner owner) throws DataAccessException {
+        ownerRepository.save(owner);
+    }
+	
+	@Transactional
 	public void deleteOwner(Owner owner)  throws DataAccessException {
 		this.ownerRepository.delete(owner);
     }

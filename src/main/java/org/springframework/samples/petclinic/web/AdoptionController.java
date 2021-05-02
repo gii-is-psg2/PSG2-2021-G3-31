@@ -121,8 +121,8 @@ public class AdoptionController {
 		ow2.addPet(pet);
 		pet.setAdoption(false);
 		pet.setOwner(ow2);
-		this.ownerService.saveOwner(ow1);
-		this.ownerService.saveOwner(ow2);
+		this.ownerService.saveOwnerOnly(ow1);
+        this.ownerService.saveOwnerOnly(ow2);
 		this.petService.savePet(pet);
 		return "redirect:/adoptions";
 		}else {

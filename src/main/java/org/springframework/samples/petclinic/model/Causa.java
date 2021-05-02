@@ -52,11 +52,11 @@ public class Causa extends BaseEntity {
         this.organizacion = organizacion;
     }
 
-    public String getDescripcion() {
+    public String getDescr() {
         return descr;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescr(String descripcion) {
         this.descr = descripcion;
     }
 
