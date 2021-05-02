@@ -104,6 +104,7 @@ public class PetController {
 		pet.setAdoption(false);
 		if (result.hasErrors()) {
 			model.put("pet", pet);
+			System.out.println(result.getAllErrors());
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -121,7 +122,6 @@ public class PetController {
 	@GetMapping(value = "/pets/{petId}/edit")
 	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
 		Pet pet = this.petService.findPetById(petId);
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + pet.getAdoption());
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -140,7 +140,6 @@ public class PetController {
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
-			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + pet.getAdoption());
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
