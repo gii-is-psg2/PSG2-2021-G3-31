@@ -9,7 +9,6 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Adoption;
 import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface AdoptionRepository extends Repository<Adoption, Integer>, CrudRepository<Adoption, Integer>  {
