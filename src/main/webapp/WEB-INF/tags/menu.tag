@@ -31,7 +31,7 @@
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="Buscar Propietarios">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Buscar Propietarios</span>
+					<span>Propietarios</span>
 				</petclinic:menuItem>		
 				<sec:authorize access="!hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vet"
@@ -42,10 +42,34 @@
 				</sec:authorize>
 				
 				<sec:authorize access="hasAnyAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'causas'}" url="/causas"
+					title="Causas">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Causas</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'causas'}" url="/causas"
+					title="Causas">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Causas</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'veterinarios'}" url="/vets"
 					title="Veterinarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarios</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'adopciones'}" url="/adoptions"
+					title="Adopciones">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Adopciones</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				

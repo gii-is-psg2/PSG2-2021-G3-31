@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -66,7 +67,7 @@ public interface PetRepository extends Repository<Pet, Integer>, CrudRepository<
 	@Modifying
 	@Query("DELETE FROM Booking WHERE pet.id =:petId")
 	public void deleteBookings(@Param("petId") int petId);
-	
-	
-	
+
+	@Query("SELECT pet FROM Pet pet WHERE pet.adoption = TRUE")
+	public Collection<Pet> adoptionPet();
 }

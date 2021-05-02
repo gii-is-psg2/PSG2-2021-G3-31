@@ -16,19 +16,20 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Booking;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.BookingRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedFechaEntradaPetBookingException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedFechaSalidaPetBookingException;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.service.exceptions.InvalidDatePetBookingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -75,7 +76,7 @@ public class PetService {
 	@Transactional(rollbackFor = DuplicatedPetNameException.class)
 	public void savePet(Pet pet) throws DataAccessException, DuplicatedPetNameException {
 			Pet otherPet=pet.getOwner().getPetwithIdDifferent(pet.getName(), pet.getId());
-            if (StringUtils.hasLength(pet.getName()) &&  (otherPet!= null && otherPet.getId()!=pet.getId())) {            	
+            if (StringUtils.hasLength(pet.getName()) &&  (otherPet!= null && !otherPet.getId().equals(pet.getId()))) {            	
             	throw new DuplicatedPetNameException();
             }else
                 petRepository.save(pet);                
@@ -98,10 +99,23 @@ public class PetService {
 		this.petRepository.deletePet(ownerId,pet.getId());
     }
 
-	@Transactional
-	public void saveBooking(Booking booking) throws DataAccessException {
-		bookingRepository.save(booking);
-	}
+	@Transactional(rollbackFor = {InvalidDatePetBookingException.class, DuplicatedFechaEntradaPetBookingException.class, DuplicatedFechaSalidaPetBookingException.class})
+	public void saveBooking(Booking booking) throws DataAccessException, InvalidDatePetBookingException, DuplicatedFechaEntradaPetBookingException, DuplicatedFechaSalidaPetBookingException {
+		if(booking.getFechaEntrada().isAfter(booking.getFechaSalida())) {
+			throw new InvalidDatePetBookingException();
+		}		
+
+		List<Booking> l = bookingRepository.findByPetId(booking.getPet().getId());
+		for(Booking b: l) {
+			if(booking.getFechaEntrada().isAfter(b.getFechaEntrada()) && booking.getFechaEntrada().isBefore(b.getFechaSalida())) {
+				throw new DuplicatedFechaEntradaPetBookingException();
+			}
+			if(booking.getFechaSalida().isAfter(b.getFechaEntrada()) && booking.getFechaSalida().isBefore(b.getFechaSalida())) {
+				throw new DuplicatedFechaSalidaPetBookingException();
+			}
+		}
+			bookingRepository.save(booking);
+	}	
 	
 	public Collection<Booking> findBookingsByPetId(int bookingId) {
 		return bookingRepository.findByPetId(bookingId);
@@ -111,5 +125,10 @@ public class PetService {
 	public void deleteVisit(int visitId) throws DataAccessException {
 		 this.visitRepository.deleteVisit(visitId);
     }
+	
+	@Transactional
+	public Iterable<Pet> adoptionPetList(){
+		return petRepository.adoptionPet();
+	}
 	
 }

@@ -15,9 +15,12 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,15 +30,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Simple business object representing a pet.
@@ -66,6 +65,14 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Booking> bookings;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	private Set<Adoption> adoptions;
+	
+	@NotNull
+	@Column(name = "adoption")
+	private Boolean adoption;
+	
+
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
@@ -86,8 +93,21 @@ public class Pet extends NamedEntity {
 		return this.owner;
 	}
 
-	protected void setOwner(Owner owner) {
+	public void setOwner(Owner owner) {
 		this.owner = owner;
+		
+	}
+
+	public Boolean getAdoption() {
+		return adoption;
+	}
+
+	public void setAdoption(Boolean adoption) {
+		this.adoption = adoption;
+	}
+
+	public void setAdoptions(Set<Adoption> adoptions) {
+		this.adoptions = adoptions;
 	}
 
 	protected Set<Visit> getVisitsInternal() {
@@ -118,6 +138,13 @@ public class Pet extends NamedEntity {
 		}
 		return this.bookings;
 	}
+	
+	protected Set<Adoption> getAdoptionsInternal() {
+		if (this.adoptions == null) {
+			this.adoptions  = new HashSet<>();
+		}
+		return this.adoptions;
+	}
 
 	protected void setBookingsInternal(Set<Booking> bookings) {
 		this.bookings = bookings;
@@ -132,5 +159,17 @@ public class Pet extends NamedEntity {
 	public void addBooking(Booking booking) {
 		getBookingsInternal().add(booking);
 		booking.setPet(this);
+	}
+
+	
+	
+	public void addAdoption(Adoption adoption) {
+		getAdoptionsInternal().add(adoption);
+		adoption.setPet(adoption.getPet());
+		adoption.setOwner(adoption.getOwner());
+	}
+	
+	protected void setAdoptionsInternal(Set<Adoption> adoptions) {
+		this.adoptions = adoptions;
 	}
 }
