@@ -60,11 +60,6 @@ public class OwnerService {
 	public Owner findOwnerById(int id) throws DataAccessException {
 		return ownerRepository.findById(id);
 	}
-	
-	@Transactional(readOnly = true)
-	public Owner findOwnerByUsername(String username) throws DataAccessException {
-		return ownerRepository.findByUsername(username);
-	}
 
 	@Transactional(readOnly = true)
 	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
@@ -90,13 +85,4 @@ public class OwnerService {
 	public void deleteOwner(Owner owner)  throws DataAccessException {
 		this.ownerRepository.delete(owner);
     }
-	
-	@Transactional(readOnly = true)
-	public Owner getOwnerByUserName(String username) {
-		return ownerRepository.findByUsername(username);
-	}
-	
-	
-	
-	
 }
