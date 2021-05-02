@@ -41,7 +41,7 @@ public interface OwnerRepository extends Repository<Owner, Integer>,CrudReposito
 	 * <code>Collection</code> if none found)
 	 */	
 	@Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
-	public Collection<Owner> findByLastName(@Param("lastName") String lastName);
+	public Collection<Owner> findOwnerByLastName(@Param("lastName") String lastName);
 
 
 	/**
@@ -54,6 +54,6 @@ public interface OwnerRepository extends Repository<Owner, Integer>,CrudReposito
 	public Owner findById(@Param("id") int id);
 	
 	@Query("SELECT owner FROM Owner owner join fetch owner.pets WHERE owner.user.username =:username")
-	public Owner findByUsername(@Param("username") String username);
+	public Owner findOwnerByUsername(@Param("username") String username);
 
 }

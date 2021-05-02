@@ -20,7 +20,7 @@ public class Causa extends BaseEntity {
     
     @Column(length = 5000)
     @NotEmpty(message = "La descripcion no puede estar vacio")
-    private String descripcion;
+    private String descr;
     
     private Double recaudacion;
     
@@ -53,11 +53,11 @@ public class Causa extends BaseEntity {
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return descr;
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descr = descripcion;
     }
 
     public Double getRecaudacion() {

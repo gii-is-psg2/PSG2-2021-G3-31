@@ -16,7 +16,7 @@
         	<petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Organizacion" name="organizacion"/>
             <petclinic:inputField label="Cantidad objetivo" name="objetivo"/>        
-            <petclinic:inputField label="Descripcion" name="descripcion"/>
+            <petclinic:inputField label="Descripcion" name="descr"/>
         </div>
         <div class="form-group">
         <button class="btn btn-default" type="submit">Crear causa</button>

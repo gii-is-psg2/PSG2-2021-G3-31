@@ -70,8 +70,8 @@ public class Pet extends NamedEntity {
 	private Set<Adoption> adoptions;
 	
 	@NotNull
-	@Column(name = "in_adoption")
-	private Boolean inAdoption;
+	@Column(name = "adoption")
+	private Boolean adoption;
 	
 
 	public void setBirthDate(LocalDate birthDate) {
@@ -98,12 +98,17 @@ public class Pet extends NamedEntity {
 		this.owner = owner;
 		
 	}
-	
-	public Boolean getInAdoption() {
-		return this.inAdoption;
+
+	public Boolean getAdoption() {
+		return adoption;
 	}
-	public void setInAdoption(Boolean inAdoption) {
-		this.inAdoption = inAdoption;
+
+	public void setAdoption(Boolean adoption) {
+		this.adoption = adoption;
+	}
+
+	public void setAdoptions(Set<Adoption> adoptions) {
+		this.adoptions = adoptions;
 	}
 
 	protected Set<Visit> getVisitsInternal() {
@@ -134,6 +139,13 @@ public class Pet extends NamedEntity {
 		}
 		return this.bookings;
 	}
+	
+	protected Set<Adoption> getAdoptionsInternal() {
+		if (this.adoptions == null) {
+			this.adoptions  = new HashSet<>();
+		}
+		return this.adoptions;
+	}
 
 	protected void setBookingsInternal(Set<Booking> bookings) {
 		this.bookings = bookings;
@@ -150,34 +162,14 @@ public class Pet extends NamedEntity {
 		booking.setPet(this);
 	}
 	
-	protected Set<Adoption> getAdoptionsInternal() {
-		if (this.adoptions == null) {
-			this.adoptions  = new HashSet<>();
-		}
-		return this.adoptions;
+	
+	public void addAdoption(Adoption adoption) {
+		getAdoptionsInternal().add(adoption);
+		adoption.setPet(adoption.getPet());
+		adoption.setOwner(adoption.getOwner());
 	}
 	
 	protected void setAdoptionsInternal(Set<Adoption> adoptions) {
 		this.adoptions = adoptions;
-	}
-	public List<Adoption> getAdoptions() {
-		List<Adoption> sortedAdoptions = new ArrayList<>(getAdoptionsInternal());
-		PropertyComparator.sort(sortedAdoptions, new MutableSortDefinition("date", false, false));
-		return Collections.unmodifiableList(sortedAdoptions);
-	}
-	
-
-	public void addAdoption(Adoption adoption) {
-		getAdoptionsInternal().add(adoption);
-		adoption.setPet(this);
-	}
-	public void removeAdoption(Adoption adoption) {
-		List<Adoption> adoptions = this.getAdoptions();
-		for (Adoption a : adoptions) {
-			if (a.getDescription() == null) {
-				this.adoptions.remove(a);
-			}
-		}
-		this.adoptions.remove(adoption);
 	}
 }

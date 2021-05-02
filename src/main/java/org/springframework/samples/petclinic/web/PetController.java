@@ -15,12 +15,14 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.Collection;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -91,6 +93,7 @@ public class PetController {
 	@GetMapping(value = "/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
 		Pet pet = new Pet();
+		//pet.setAdoption(false);
 		owner.addPet(pet);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -98,6 +101,7 @@ public class PetController {
 
 	@PostMapping(value = "/pets/new")
 	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {		
+		pet.setAdoption(false);
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -117,6 +121,7 @@ public class PetController {
 	@GetMapping(value = "/pets/{petId}/edit")
 	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
 		Pet pet = this.petService.findPetById(petId);
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + pet.getAdoption());
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -135,10 +140,12 @@ public class PetController {
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + pet.getAdoption());
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-                        Pet petToUpdate=this.petService.findPetById(petId);
+            Pet petToUpdate=this.petService.findPetById(petId);
+            petToUpdate.setAdoption(petToUpdate.getAdoption());
 			BeanUtils.copyProperties(pet, petToUpdate, "id","owner","visits");                                                                                  
                     try {                    
                         this.petService.savePet(petToUpdate);                    
@@ -167,6 +174,18 @@ public class PetController {
         
         return "redirect:/owners/{ownerId}";
     }
+    
+    @GetMapping(value = "/pets/{petId}/inAdoption")
+	public String inAdoption(@PathVariable("petId") int petId, Principal principal) throws DataAccessException, DuplicatedPetNameException {
+		Pet pet = petService.findPetById(petId);
+		if (pet.getOwner().getUser().getUsername().equals(principal.getName()) && pet.getAdoption() == false) {	
+			pet.setAdoption(true);
+			this.petService.savePet(pet);
+			return "redirect:/adoptions";
+		}else {
+			return "exception";
+		}
+	}
 	
 	
 }

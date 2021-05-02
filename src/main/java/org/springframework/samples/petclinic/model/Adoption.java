@@ -9,42 +9,54 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name = "adoptions")
 public class Adoption extends BaseEntity{
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id")
-	private Owner owner;
+	private Owner Owner;
 	
-	@Column(name = "possible_owner")
-	private String possibleOwner;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "possible_owner")
+	private Owner possibleOwner;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
 	
 	@NotEmpty
+	@Length(min=0,max=150,message = "Debe de tener como máximo 150 carácteres.")
 	@Column(name = "description")
 	private String description;
 	
-	@ManyToOne
-	@JoinColumn(name = "estado_adopcion")
-	private EstadoAdopcion estadoAdopcion;
+	@Column(name = "adoptionStatus")
+	private AdoptionState adoptionStatus;
+	
+	
+	public AdoptionState getAdoptionStatus() {
+		return adoptionStatus;
+	}
+
+	public void setAdoptionStatus(AdoptionState adoptionStatus) {
+		this.adoptionStatus = adoptionStatus;
+	}
 
 	public Owner getOwner() {
-		return owner;
+		return Owner;
 	}
 
 	public void setOwner(Owner owner) {
-		this.owner = owner;
+		Owner = owner;
 	}
 	
-	public String getPossibleOwner() {
+	public Owner getPossibleOwner() {
 		return this.possibleOwner;
 	}
 	
-	public void setPossibleOwner(String possibleOwner) {
+	public void setPossibleOwner(Owner possibleOwner) {
 		this.possibleOwner = possibleOwner;
 	}
 	
@@ -63,14 +75,5 @@ public class Adoption extends BaseEntity{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public EstadoAdopcion getEstadoAdopcion() {
-		return this.estadoAdopcion;
-	}
-
-	public void setEstadoAdopcion(EstadoAdopcion estadoAdopcion) {
-		this.estadoAdopcion = estadoAdopcion;
-	}
-
 	
 }

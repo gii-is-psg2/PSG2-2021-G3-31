@@ -1,13 +1,11 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Adoption;
-import org.springframework.samples.petclinic.model.EstadoAdopcion;
-import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.repository.AdoptionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,53 +19,29 @@ private AdoptionRepository adoptionRepository;
 	public AdoptionService(AdoptionRepository adoptionRepository) {
 		this.adoptionRepository = adoptionRepository;
 	}
-	
 	@Transactional
-	public void saveAdoption(Adoption adoption) throws DataAccessException {
+	public void addAdoption(Adoption adoption) throws DataAccessException {
 		adoptionRepository.save(adoption);
 	}
 	
 	@Transactional(readOnly = true)
-	public Adoption findAdoptionById(int id) throws DataAccessException {
-		return adoptionRepository.findById(id);
+	public Collection<Adoption> requestList(int petId) throws DataAccessException {
+		return adoptionRepository.findAdoptionByPetId(petId);
 	}
 	
 	@Transactional(readOnly = true)
-	public Iterable<Adoption> findAll(){
-		return adoptionRepository.findAll();
+	public Adoption findAdoptionById(int adpId) throws DataAccessException {
+		return adoptionRepository.findAdoptionById(adpId);
 	}
 	
 	@Transactional(readOnly = true)
-	public Integer findAdoptionByPossibleOwnerAndPet(String possibleOwner,Pet pet) throws DataAccessException {
-		return adoptionRepository.findByPossibleOwnerAndPet(possibleOwner,pet);
-	}
-
-	@Transactional(readOnly = true)
-	public List<Adoption> findAllAdoptionsWithPendingState(List<Adoption> adoptions){
-		List<Adoption> res = new ArrayList<Adoption>();
-		for (Adoption adoption: adoptions) {
-			if(adoption.getEstadoAdopcion().getName().equals("Pendiente")) {
-				res.add(adoption);
-			}
-		}
-		return res;
+	public Owner findAdoptionPosibleOwnerByOwnId(int adopId) throws DataAccessException {
+		return adoptionRepository.findAdoptionPosibleOwnerByOwnId(adopId);
 	}
 	
 	@Transactional
-	public void acceptAdoptionApplication(Adoption adoption) throws DataAccessException {
-		EstadoAdopcion estado = this.adoptionRepository.findEstadoById(2);
-		adoption.setEstadoAdopcion(estado);
-		this.adoptionRepository.save(adoption);
+	public void deleteAdoptionById(int id) throws DataAccessException {
+		this.adoptionRepository.deleteAdoptionById(id);
 	}
 	
-	@Transactional
-	public void denyAdoptionApplication(Adoption adoption) throws DataAccessException{
-		EstadoAdopcion estado = this.adoptionRepository.findEstadoById(4);
-		adoption.setEstadoAdopcion(estado);
-		this.adoptionRepository.save(adoption);
-	}
-	
-	public EstadoAdopcion findEstadoById(int id) {
-		return this.adoptionRepository.findEstadoById(id);
-	}
 }

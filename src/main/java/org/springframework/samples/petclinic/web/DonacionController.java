@@ -60,8 +60,9 @@ public class DonacionController {
 	}
 
 	@PostMapping(value = "/causas/{causaId}/donaciones/new")
-	public String processCreationForm(@PathVariable("causaId") int causaId, @Valid Donacion donacion, BindingResult result, Map<String, Object> model){
+	public String processCreationForm(@PathVariable("causaId") int causaId,final Principal principal, @Valid Donacion donacion, BindingResult result, Map<String, Object> model){
 		donacion.setFechaDonacion(LocalDate.now());
+		donacion.setDonante(this.ownerService.findOwnerByUsername(principal.getName()));
 		Causa causa = this.causaService.findById(causaId);
 		if(donacion.getCantidadDonada()==null) {
 			result.rejectValue("cantidadDonada", "Este campo no puede ser nulo", 
@@ -71,7 +72,7 @@ public class DonacionController {
 			double suma = donacion.getCantidadDonada()+causa.getRecaudacion();
 			if(suma>causa.getObjetivo()) {
 				result.rejectValue("cantidadDonada", "La recaudación no pueden ser mayores al objetivo", 
-					"La recaudación no pueden ser mayores al objetivo");
+						"La recaudación no pueden ser mayores al objetivo");
 				return "donaciones/createDonacion";
 			}else {
 				causa.setRecaudacion(suma);
@@ -87,6 +88,7 @@ public class DonacionController {
 				}
 			}
 		}
+		
 	}
 
 }
