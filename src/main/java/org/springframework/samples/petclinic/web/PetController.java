@@ -104,6 +104,7 @@ public class PetController {
 		pet.setAdoption(false);
 		if (result.hasErrors()) {
 			model.put("pet", pet);
+			System.out.println(result.getAllErrors());
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {

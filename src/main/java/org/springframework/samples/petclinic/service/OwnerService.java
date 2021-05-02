@@ -50,7 +50,7 @@ public class OwnerService {
 	public Owner findOwnerById(int id) throws DataAccessException {
 		return ownerRepository.findById(id);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Owner findOwnerByUsername(String username) throws DataAccessException {
 		return ownerRepository.findOwnerByUsername(username);
@@ -85,5 +85,5 @@ public class OwnerService {
 	public void deleteOwner(Owner owner)  throws DataAccessException {
 		this.ownerRepository.delete(owner);
     }
-	
+
 }
