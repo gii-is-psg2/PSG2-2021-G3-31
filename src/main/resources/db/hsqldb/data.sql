@@ -81,19 +81,19 @@ INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner9');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner10');
 
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 4);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (6, 'George', '2010-01-20', 4, 5);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 7);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 8);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (1, 'Leo', '2010-09-07', 1, 1,TRUE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (2, 'Basil', '2012-08-06', 6, 2,TRUE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (3, 'Rosy', '2011-04-17', 2, 3,TRUE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (4, 'Jewel', '2010-03-07', 2, 3,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (5, 'Iggy', '2010-11-30', 3, 4,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (6, 'George', '2010-01-20', 4, 5,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (7, 'Samantha', '2012-09-04', 1, 6,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (8, 'Max', '2012-09-04', 1, 6,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (9, 'Lucky', '2011-08-06', 5, 7,TRUE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (10, 'Mulligan', '2007-02-24', 2, 8,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (11, 'Freddy', '2010-03-09', 5, 9,FALSE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (12, 'Lucky', '2010-06-24', 2, 10,TRUE);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,adoption) VALUES (13, 'Sly', '2012-06-08', 1, 10,FALSE);
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'Vacuna antirrábica');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'Vacuna antirrábica');
@@ -103,12 +103,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 INSERT INTO bookings(id,fecha_entrada,fecha_salida,room,pet_id) VALUES (1, '2012-06-08', '2012-06-09', 10, 1);
 INSERT INTO bookings(id,fecha_entrada,fecha_salida,room,pet_id) VALUES (2, '2016-06-08', '2016-06-09', 11, 2);
 
-INSERT INTO causas(id,nombre,organizacion,descripcion,recaudacion,objetivo) VALUES (1, 'Gatos abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los gatos abandonados', 50.0, 3000.0);
-INSERT INTO causas(id,nombre,organizacion,descripcion,recaudacion,objetivo) VALUES (2, 'Mascotas abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los animales abandonados',40.0, 1000.0);
+INSERT INTO causas(id,nombre,organizacion,descr,recaudacion,objetivo) VALUES (1, 'Gatos abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los gatos abandonados', 50.0, 3000.0);
+INSERT INTO causas(id,nombre,organizacion,descr,recaudacion,objetivo) VALUES (2, 'Mascotas abandonados', 'Caritas', 'El objetivo es recaudar suficiente dinero para ayudar a los animales abandonados',40.0, 1000.0);
 
 
 INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (1, '2020-10-10', 20.5, 1, 1);
 INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (2, '2020-10-11', 29.5, 1, 2);
-INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 1, 1);
+INSERT INTO donaciones(id,fecha_donacion,cantidad_donada,id_causa,id_owner) VALUES (3, '2020-10-15', 40.0, 2, 1);
 
 

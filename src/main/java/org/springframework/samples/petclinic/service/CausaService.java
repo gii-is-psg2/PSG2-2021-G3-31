@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,11 +21,11 @@ public class CausaService {
 	
 	@Transactional(readOnly = true)
 	public Causa findById(int id) throws DataAccessException{
-		return this.causaRepository.findById(id);
+		return this.causaRepository.findCausaById(id);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Causa> findAll() throws DataAccessException{
+	public Collection<Causa> findAll() throws DataAccessException{
 		return this.causaRepository.findAll();
 	}
 	

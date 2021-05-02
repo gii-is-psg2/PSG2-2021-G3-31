@@ -1,9 +1,9 @@
 package org.springframework.samples.petclinic.model;
 
 public enum AdoptionState{
-	APPROVED("Approved"),
-	REJECTED("Rejected"),
-	PENDING("Pending");
+	ACEPTADA("Aceptada"),
+	DENEGADA("Denegada"),
+	PENDIENTE("Pendiente");
 
 	private String status;
 	   

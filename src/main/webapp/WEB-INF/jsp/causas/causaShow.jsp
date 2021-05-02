@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <th>Descripcion</th>
-            <td><c:out value="${causa.descripcion}"/></td>
+            <td><c:out value="${causa.descr}"/></td>
         </tr>
     </table>
     

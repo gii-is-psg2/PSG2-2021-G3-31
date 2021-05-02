@@ -63,12 +63,12 @@ public class OwnerService {
 	
 	@Transactional(readOnly = true)
 	public Owner findOwnerByUsername(String username) throws DataAccessException {
-		return ownerRepository.findByUsername(username);
+		return ownerRepository.findOwnerByUsername(username);
 	}
-
+	
 	@Transactional(readOnly = true)
 	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
+		return ownerRepository.findOwnerByLastName(lastName);
 	}
 	
 	@Transactional(readOnly = true)
@@ -87,16 +87,13 @@ public class OwnerService {
 	}
 	
 	@Transactional
+    public void saveOwnerOnly(Owner owner) throws DataAccessException {
+        ownerRepository.save(owner);
+    }
+	
+	@Transactional
 	public void deleteOwner(Owner owner)  throws DataAccessException {
 		this.ownerRepository.delete(owner);
     }
-	
-	@Transactional(readOnly = true)
-	public Owner getOwnerByUserName(String username) {
-		return ownerRepository.findByUsername(username);
-	}
-	
-	
-	
 	
 }

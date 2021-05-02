@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -38,7 +38,7 @@ public class CausaController {
 	
 	@GetMapping(value ="/causas" )
 	public String ListCausas(Principal principal, Map<String, Object> model) {
-		List<Causa> causas = this.causaService.findAll();
+		Collection<Causa> causas = this.causaService.findAll();
 		model.put("causas", causas);
 		//model.put("rol", this.authoritiesService.getRol(principal.getName()));
 		return "causas/causasList";
