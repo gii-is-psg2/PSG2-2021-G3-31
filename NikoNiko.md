@@ -35,16 +35,18 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day           | Badayco   | Daniel M.  | Daniel S.     | Daniel T.     | Francisco     | Manuel     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
 | 09/04         | :smile:        | :smile:                |  :smile:              |     :smiley:           |   😃             |    :smiley:            |
+| 14/04         | :smile:        | :smile:                |  :smile:              |     :smiley:           |   😃             |    :smiley:            |
 | 16/04        | :smile:              |  :smile:              | :smile:               |     :smiley:           |       😃         |   :smiley:             |
 | 19/04         |         -      |           -    |        -        |      -         |    😐            |      -          |
 | 21/04        |        -      |          -     |  😐              |          -      |   -             |             -   |
 | 22/04        |        -      | :smile:                |        -      |         -     |  :neutral_face:              | :neutral_face:                |
 | 23/04        |  :smiley:    |   :smile:              | :smile:          |  :smiley:  |     😃           |  :smiley:               |
 | 24/04        |  :neutral_face:    |         -        |      -     | -   |      -         |     :smiley:            |
-| 27/04        |  :neutral_face:    |        -         |  :smile:  |   - |       -        |           -    |
+| 25/04        |  😐   |         -        |      -     | -   |      -         |     😄           |
+| 27/04        |  :neutral_face:    |        -         |  :smile:  |   - |       :smile:        |           -    |
 | 28/04        |       -      |     -       |     -      |  :smiley: |          -     |         -      |
 | 29/04        |       -      |    -        |    -       |  :worried: |           -    |      -         |
 | 30/04        |    :neutral_face:         | 😐           |  :smile:     | 😃  |     😃          |   :neutral_face:            |
-| 01/05        |       -    |      -      |   -    |   -|      😃         |     -       |
+| 01/05        |       -    |      :smile:       |   -    |   -|      😃         |     -       |
 | 02/05        |     :smile:      |  :smile:          |    -   |😃   |        😃       |   :neutral_face:         |
 | 03/05        |     :neutral_face:      | :smile:          |  :smile:       |  :smiley: |        :neutral_face:       |     :neutral_face:      |
