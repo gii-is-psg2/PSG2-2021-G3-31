@@ -73,6 +73,12 @@
 				</petclinic:menuItem>
 				</sec:authorize>
 				
+				<petclinic:menuItem active="${name eq 'health'}" url="/health"
+					title="Salud">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span>Salud</span>
+				</petclinic:menuItem>
+				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="Trigger que provoca una excepción del tipo RuntimeException para ver como se maneja">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
