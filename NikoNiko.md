@@ -50,3 +50,9 @@ In the retrospective meeting, the team has a discussion about those results.
 | 01/05        |       -    |      :smile:       |   -    |   -|      😃         |     -       |
 | 02/05        |     :smile:      |  :smile:          |    -   |😃   |        😃       |   :neutral_face:         |
 | 03/05        |     :neutral_face:      | :smile:          |  :smile:       |  :smiley: |        :neutral_face:       |     :neutral_face:      |
+| 05/05        |         |          |        |  |           |         |
+| 07/05        |         |          |        |  |           |         |
+| 09/05        |         |  😐        |        |  |           |         |
+
+
+
