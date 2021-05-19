@@ -60,5 +60,5 @@ In the retrospective meeting, the team has a discussion about those results.
 | 15/05         |  |  |  |  | 😃 | - |
 | 16/05         |  |  |  |  | 😃 | - |
 | 17/05         |  |  |  |  | 😃 | - |
-| 17/05         |  |  |  |  | | :neutral_face: |
-| 19/05         |  |  |  |  | | 😃 |
+| 18/05         |  |  |  |  | | :neutral_face: |
+| 19/05         |  |  |  |  |😃 | 😃 |
