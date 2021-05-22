@@ -79,16 +79,7 @@
 					<span>Salud</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="Trigger que provoca una excepción del tipo RuntimeException para ver como se maneja">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
-				</petclinic:menuItem>
-
 			</ul>
-
-
-
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
@@ -98,8 +89,6 @@
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-							<strong><sec:authentication property="name" /></strong> <span
-							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul class="dropdown-menu">
 							<li>
