@@ -41,6 +41,7 @@ public class Person extends BaseEntity {
 	@Pattern(regexp = "[a-zA-Z]*", message = "Los caracteres no son válidos")
 	@Length(min = 3, max = 20, message = "El apellido debe estar comprendido entre 3 y 20 caracteres")
 	protected String lastName;
+	
 
 	public String getFirstName() {
 		return this.firstName;
