@@ -33,12 +33,4 @@
         </tbody>
     </table>
     
-
-    <table class="table-buttons">
-        <tr>
-            <td>
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver en formato XML</a>
-            </td>            
-        </tr>
-    </table>
 </petclinic:layout>

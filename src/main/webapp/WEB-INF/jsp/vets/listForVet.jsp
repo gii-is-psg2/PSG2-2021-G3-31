@@ -46,11 +46,4 @@
 	<spring:url value="vet/new" var="crearUrl">
     </spring:url>
     <a href="${fn:escapeXml(crearUrl)}" class="btn btn-default">Crear Veterinario</a>
-    <table class="table-buttons">
-        <tr>
-            <td>
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver como XML</a>
-            </td>            
-        </tr>
-    </table>
 </petclinic:layout>

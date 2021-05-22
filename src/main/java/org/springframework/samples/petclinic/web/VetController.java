@@ -77,15 +77,6 @@ public class VetController {
 		return "vets/listForVet";
 	}
 
-	@GetMapping(value = { "/vets.xml"})
-	public @ResponseBody Vets showResourcesVetList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-		// objects
-		// so it is simpler for JSon/Object mapping
-		Vets vets = new Vets();
-		vets.getVetList().addAll(this.vetService.findVets());
-		return vets;
-	}
 	
 	
 	@GetMapping(value = "/vet/new")
@@ -170,19 +161,7 @@ public class VetController {
 			return "redirect:/vet";
 		}
 	}
-	/*
-	@GetMapping("/vets/{vetId}/delete")
-    public String deleteVet(@PathVariable("vetId") int vetId, ModelMap model) {
-        Optional<Vet> vet =this.vetService.findVetByIdOpt(vetId);
-        if (vet.isPresent()) {
-            this.vetService.deleteVet(vet.get());
-            model.addAttribute("message","Veterinario eliminado correctamente.");
-        }else {
-			model.addAttribute("message", "Veterinario no encontrado.");
-		}
-        return showVetList(model);
-    }*/
-	
+
 	@GetMapping("/vet/{vetId}/delete")
     public String deleteVetForVet(@PathVariable("vetId") int vetId, ModelMap model, Principal principal) {
         Optional<Vet> vet =this.vetService.findVetByIdOpt(vetId);
