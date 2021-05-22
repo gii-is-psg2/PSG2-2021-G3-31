@@ -16,13 +16,16 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.DonacionService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -48,9 +51,11 @@ public class OwnerController {
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerService ownerService;
+	private final DonacionService donacionService;
 
 	@Autowired
-	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
+	public OwnerController(OwnerService ownerService,DonacionService donacionService, UserService userService, AuthoritiesService authoritiesService) {
+		this.donacionService = donacionService;
 		this.ownerService = ownerService;
 	}
 
@@ -148,6 +153,12 @@ public class OwnerController {
     public String deleteOwner(@PathVariable("ownerId") int ownerId, ModelMap model) {
 		try {
 			Owner owner=this.ownerService.findOwnerById(ownerId);
+			List<Donacion> donaciones=this.donacionService.findAllDonacionForOwner(ownerId);
+			if (donaciones.size()!=0) {
+				for(int i=0;i<donaciones.size();i++) {
+					this.donacionService.deleteDonacion(donaciones.get(i));
+				}
+			}
 			this.ownerService.deleteOwner(owner);
 			model.addAttribute("message","Propietario eliminado correctamente.");
 			Collection<Owner> owners = this.ownerService.findAll();
@@ -160,5 +171,7 @@ public class OwnerController {
 		}
         return "/owners/ownersList";
     }
+	
+	
 
 }

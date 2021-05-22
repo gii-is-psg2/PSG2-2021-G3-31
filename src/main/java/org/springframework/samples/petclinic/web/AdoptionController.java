@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.service.AdoptionService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.service.exceptions.SolicitudAdopcionDuplicada;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,8 @@ public class AdoptionController {
 		
 	}
 	@PostMapping(value = "/{petId}/adoptionForm")
-	public String sendApplicationForm(@PathVariable("petId") int petId, Map<String, Object> modelMap, Authentication authentication, @Valid Adoption adoption, BindingResult result) throws DataAccessException, DuplicatedPetNameException {
+	public String sendApplicationForm(@PathVariable("petId") int petId, Map<String, Object> modelMap, Authentication authentication, @Valid Adoption adoption, BindingResult result)
+			throws DataAccessException, SolicitudAdopcionDuplicada {
 		Pet pet = this.petService.findPetById(petId);
 		UserDetails user = (UserDetails) authentication.getPrincipal();
 		Owner possibleOwner = this.ownerService.findOwnerByUsername(user.getUsername());
@@ -85,7 +87,13 @@ public class AdoptionController {
 			adoption.setPet(pet);
 			adoption.setAdoptionStatus(AdoptionState.PENDIENTE);
 			modelMap.put("adoption",adoption);
-			this.adoptionService.addAdoption(adoption);
+			try{
+				this.adoptionService.addAdoption(adoption,possibleOwner.getId(),true);
+            }catch(SolicitudAdopcionDuplicada ex){
+                result.rejectValue("description", "Ya ha realizado una solicitud que no se ha evaluado, por favor espere a que sea aceptada",
+                		"Ya ha realizado una solicitud que no se ha evaluado, por favor espere a que sea aceptada");
+                return "/adopciones/adopcionesForm";
+            }
 			return "redirect:/adoptions";	
 			}
 		}
@@ -136,7 +144,10 @@ public class AdoptionController {
 		if(user.getUsername().equals(pet.getOwner().getUser().getUsername())) {
 		Adoption adop = this.adoptionService.findAdoptionById(adopcionId);
 		adop.setAdoptionStatus(AdoptionState.DENEGADA);
-		this.adoptionService.addAdoption(adop);
+		try{
+			this.adoptionService.addAdoption(adop,adop.getPossibleOwner().getId(),false);
+        }catch(SolicitudAdopcionDuplicada ex){
+        }
 		return "redirect:/adoptions";
 		}else {
 		return "exception";

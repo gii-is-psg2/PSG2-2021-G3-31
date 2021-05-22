@@ -59,7 +59,7 @@ public class AuthoritiesService {
 			//user.get().getAuthorities().add(authority);
 			authoritiesRepository.save(authority);
 		}else
-			throw new DataAccessException("User '"+ username +"' not found!") {};
+			throw new DataAccessException("User '"+username+"' not found!") {};
 	}
 	
 	@Transactional(readOnly = true)

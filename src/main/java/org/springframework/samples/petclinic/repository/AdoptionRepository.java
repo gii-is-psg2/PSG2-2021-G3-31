@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Adoption;
+import org.springframework.samples.petclinic.model.AdoptionState;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,9 @@ public interface AdoptionRepository extends Repository<Adoption, Integer>, CrudR
 	
 	@Query("SELECT adoption.possibleOwner FROM Adoption adoption WHERE adoption.id LIKE ?1")
 	public Owner findAdoptionPosibleOwnerByOwnId(int adopId);
+	
+	@Query("SELECT count(adoption.id) FROM Adoption adoption WHERE adoption.possibleOwner.id LIKE ?1 AND adoption.adoptionStatus LIKE ?2")
+	public int numOfPendentingAdptionsByOwnerId(int ownerId,AdoptionState pen);
 	
 	@Transactional
 	@Modifying

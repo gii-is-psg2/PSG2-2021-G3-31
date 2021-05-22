@@ -16,4 +16,6 @@ public interface DonacionRepository extends Repository<Donacion, Integer>, CrudR
 	@Query("SELECT donacion FROM Donacion donacion WHERE donacion.causa.id LIKE ?1")
 	List<Donacion> findAllDonacionForCausa(int id) throws DataAccessException;
 	
+	@Query("SELECT donacion FROM Donacion donacion WHERE donacion.donante.id LIKE ?1")
+	List<Donacion> findAllDonacionForOwner(int id) throws DataAccessException;
 }
