@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Buscar Propietarios</button>
+                <button type="submit" class="btn btn-default">Buscar propietarios</button>
             </div>
         </div>
 
@@ -34,7 +34,7 @@
 
     <br/> 
     <sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/owners/new" htmlEscape="true"/>'>Añadir Propietario </a>
+		<a class="btn btn-default" href='<spring:url value="/owners/new" htmlEscape="true"/>'>Añadir propietario </a>
 	</sec:authorize>
 	
 </petclinic:layout>
