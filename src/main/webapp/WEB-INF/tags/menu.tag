@@ -75,7 +75,7 @@
 				
 				<petclinic:menuItem active="${name eq 'health'}" url="/health"
 					title="Salud">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 					<span>Salud</span>
 				</petclinic:menuItem>
 				
