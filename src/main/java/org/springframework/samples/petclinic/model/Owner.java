@@ -63,11 +63,11 @@ public class Owner extends Person {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private Set<Pet> pets;
 	
-	
+	//
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	
+	//
 	
 	public String getAddress() {
 		return this.address;
@@ -141,7 +141,7 @@ public class Owner extends Person {
 		for (Pet pet : getPetsInternal()) {
 			String compName = pet.getName();
 			compName = compName.toLowerCase();
-			if (compName.equals(name) && !pet.getId().equals(id)) {
+			if (compName.equals(name) && pet.getId()!=id) {
 				return pet;
 			}
 		}
