@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -20,6 +22,7 @@ public class Donacion extends BaseEntity {
     private LocalDate fechaDonacion;
     
     @NotNull
+    @Column(name = "cantidad_donada")
     @Positive(message="La cantidad debe ser mayor 0")
     private Double cantidadDonada;
     

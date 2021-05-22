@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -51,7 +52,6 @@ public interface OwnerRepository extends Repository<Owner, Integer>,CrudReposito
 	 */	
 	@Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
 	public Owner findById(@Param("id") int id);
-
 	
 	@Query("SELECT owner FROM Owner owner join fetch owner.pets WHERE owner.user.username =:username")
 	public Owner findOwnerByUsername(@Param("username") String username);

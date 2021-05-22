@@ -33,5 +33,13 @@ public class DonacionService {
 	public void saveDonacion(Donacion donacion) throws DataAccessException{
 			this.donacionRepository.save(donacion);
 	}
-
+	
+	@Transactional
+	public List<Donacion> findAllDonacionForOwner(int id) throws DataAccessException{
+			return this.donacionRepository.findAllDonacionForOwner(id);
+	}
+	@Transactional
+	public void deleteDonacion(Donacion donacion) throws DataAccessException{
+			this.donacionRepository.delete(donacion);
+	}
 }

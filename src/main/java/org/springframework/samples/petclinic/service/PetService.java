@@ -15,13 +15,20 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Booking;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.BookingRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
@@ -76,7 +83,7 @@ public class PetService {
 	@Transactional(rollbackFor = DuplicatedPetNameException.class)
 	public void savePet(Pet pet) throws DataAccessException, DuplicatedPetNameException {
 			Pet otherPet=pet.getOwner().getPetwithIdDifferent(pet.getName(), pet.getId());
-            if (StringUtils.hasLength(pet.getName()) &&  (otherPet!= null && !otherPet.getId().equals(pet.getId()))) {            	
+            if (StringUtils.hasLength(pet.getName()) &&  (otherPet!= null && otherPet.getId()!=pet.getId())) {            	
             	throw new DuplicatedPetNameException();
             }else
                 petRepository.save(pet);                
