@@ -61,9 +61,10 @@ public class AdoptionController {
 	@GetMapping(value = "/{petId}/adoptionForm")
 	public String adoptionForm(@PathVariable("petId") int petId, Map<String, Object> modelMap, Authentication authentication) {
 		UserDetails user = (UserDetails) authentication.getPrincipal();
-		Owner possibleOwner = this.ownerService.findOwnerByUsername(user.getUsername());
+		String possibleOwner = this.ownerService.findOwnerByUsername(user.getUsername()).getUser().getUsername();
+		//System.out.println("HHHHHHHHHHHHHHHHHHHHH"+possibleOwner);
 		Owner owner = this.petService.findPetById(petId).getOwner();
-		modelMap.put("possibleOwnerUser", possibleOwner.getUser().getUsername());
+		modelMap.put("possibleOwnerUser", possibleOwner);
 		modelMap.put("ownerUser", owner.getUser().getUsername());
 		modelMap.put("adoption",new Adoption());
 		return "/adopciones/adopcionesForm";
