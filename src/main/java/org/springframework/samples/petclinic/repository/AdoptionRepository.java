@@ -23,8 +23,8 @@ public interface AdoptionRepository extends Repository<Adoption, Integer>, CrudR
 	@Query("SELECT adoption.possibleOwner FROM Adoption adoption WHERE adoption.id LIKE ?1")
 	public Owner findAdoptionPosibleOwnerByOwnId(int adopId);
 	
-	@Query("SELECT count(adoption.id) FROM Adoption adoption WHERE adoption.possibleOwner.id LIKE ?1 AND adoption.adoptionStatus LIKE ?2")
-	public int numOfPendentingAdptionsByOwnerId(int ownerId,AdoptionState pen);
+	@Query("SELECT count(adoption.id) FROM Adoption adoption WHERE adoption.possibleOwner.id LIKE ?1 AND adoption.adoptionStatus LIKE ?2 AND adoption.pet.id LIKE ?3")
+	public int numOfPendentingAdptionsByOwnerId(int ownerId,AdoptionState pen, int petId);
 	
 	@Transactional
 	@Modifying

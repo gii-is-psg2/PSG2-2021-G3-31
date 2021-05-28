@@ -7,13 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
 public class User{
 	@Id
+	@NotEmpty(message="Este campo no puede estar vacío")
 	String username;
 	
+	@NotEmpty(message="Este campo no puede estar vacío")
 	String password;
 	
 	boolean enabled;

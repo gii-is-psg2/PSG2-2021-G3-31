@@ -63,8 +63,7 @@ public class UserController {
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_FORM;
-		}
-		else {
+		}else {
 			//creating owner, user, and authority
 			this.ownerService.saveOwner(owner);
 			return "redirect:/";

@@ -114,10 +114,10 @@ public class PetService {
 
 		List<Booking> l = bookingRepository.findByPetId(booking.getPet().getId());
 		for(Booking b: l) {
-			if(booking.getFechaEntrada().isAfter(b.getFechaEntrada()) && booking.getFechaEntrada().isBefore(b.getFechaSalida())) {
+			if((booking.getFechaEntrada().isAfter(b.getFechaEntrada()) || booking.getFechaEntrada().equals(b.getFechaEntrada())) && (booking.getFechaEntrada().isBefore(b.getFechaSalida()) || booking.getFechaEntrada().equals(b.getFechaSalida()))) {
 				throw new DuplicatedFechaEntradaPetBookingException();
 			}
-			if(booking.getFechaSalida().isAfter(b.getFechaEntrada()) && booking.getFechaSalida().isBefore(b.getFechaSalida())) {
+			if((booking.getFechaSalida().isAfter(b.getFechaEntrada()) || booking.getFechaSalida().equals(b.getFechaEntrada())) && (booking.getFechaSalida().isBefore(b.getFechaSalida()) || booking.getFechaSalida().equals(b.getFechaSalida()))) {
 				throw new DuplicatedFechaSalidaPetBookingException();
 			}
 		}

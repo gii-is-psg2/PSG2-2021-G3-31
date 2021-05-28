@@ -25,7 +25,7 @@ private AdoptionRepository adoptionRepository;
 	}
 	@Transactional
 	public void addAdoption(Adoption adoption,int ownerId,boolean isCreate) throws DataAccessException, SolicitudAdopcionDuplicada {
-		int numAdopciones=this.adoptionRepository.numOfPendentingAdptionsByOwnerId(ownerId,AdoptionState.PENDIENTE);
+		int numAdopciones=this.adoptionRepository.numOfPendentingAdptionsByOwnerId(ownerId,AdoptionState.PENDIENTE,adoption.getPet().getId());
 		if (numAdopciones>0 && isCreate==true)            	
         	throw new SolicitudAdopcionDuplicada();
         else
