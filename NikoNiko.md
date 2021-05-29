@@ -68,4 +68,6 @@ In the retrospective meeting, the team has a discussion about those results.
 | 24/05         | :smiley: | :smiley: | :smile: | :smiley: | 😃 | :smiley: |
 | 26/05         | - | - | - | :smiley: | - | :neutral_face: |
 | 27/05         | - | - | - | - | :smiley: | - |
-| 28/05         | - | - | - | :smiley: | 😃 | :smiley: |
+| 28/05         | - | 😄 | - | :smiley: | 😃 | :smiley: |
+| 29/05         | - | 😄 | - | - | - | - |
+
