@@ -56,13 +56,16 @@ public class PetService {
 	
 	private BookingRepository bookingRepository;
 	
+	private OwnerService ownerService;
+	
 
 	@Autowired
 	public PetService(PetRepository petRepository,
-			VisitRepository visitRepository, BookingRepository bookingRepository) {
+			VisitRepository visitRepository, BookingRepository bookingRepository,OwnerService ownerService) {
 		this.petRepository = petRepository;
 		this.visitRepository = visitRepository;
 		this.bookingRepository = bookingRepository;
+		this.ownerService=ownerService;
 	}
 
 	@Transactional(readOnly = true)
@@ -100,10 +103,11 @@ public class PetService {
 		
 	@Transactional
 	public void deletePet(Pet pet) throws DataAccessException {
+		Integer ownerId=pet.getOwner().getId();
 		this.petRepository.deleteBookings(pet.getId());
 		this.petRepository.deleteVisits(pet.getId());
-		Integer ownerId=pet.getOwner().getId();
 		this.petRepository.deletePet(ownerId,pet.getId());
+		
     }
 
 	@Transactional(rollbackFor = {InvalidDatePetBookingException.class, DuplicatedFechaEntradaPetBookingException.class, DuplicatedFechaSalidaPetBookingException.class})
@@ -114,10 +118,10 @@ public class PetService {
 
 		List<Booking> l = bookingRepository.findByPetId(booking.getPet().getId());
 		for(Booking b: l) {
-			if(booking.getFechaEntrada().isAfter(b.getFechaEntrada()) && booking.getFechaEntrada().isBefore(b.getFechaSalida())) {
+			if((booking.getFechaEntrada().isAfter(b.getFechaEntrada()) || booking.getFechaEntrada().equals(b.getFechaEntrada())) && (booking.getFechaEntrada().isBefore(b.getFechaSalida()) || booking.getFechaEntrada().equals(b.getFechaSalida()))) {
 				throw new DuplicatedFechaEntradaPetBookingException();
 			}
-			if(booking.getFechaSalida().isAfter(b.getFechaEntrada()) && booking.getFechaSalida().isBefore(b.getFechaSalida())) {
+			if((booking.getFechaSalida().isAfter(b.getFechaEntrada()) || booking.getFechaSalida().equals(b.getFechaEntrada())) && (booking.getFechaSalida().isBefore(b.getFechaSalida()) || booking.getFechaSalida().equals(b.getFechaSalida()))) {
 				throw new DuplicatedFechaSalidaPetBookingException();
 			}
 		}

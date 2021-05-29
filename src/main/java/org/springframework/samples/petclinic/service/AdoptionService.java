@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -25,7 +26,7 @@ private AdoptionRepository adoptionRepository;
 	}
 	@Transactional
 	public void addAdoption(Adoption adoption,int ownerId,boolean isCreate) throws DataAccessException, SolicitudAdopcionDuplicada {
-		int numAdopciones=this.adoptionRepository.numOfPendentingAdptionsByOwnerId(ownerId,AdoptionState.PENDIENTE);
+		int numAdopciones=this.adoptionRepository.numOfPendentingAdptionsByOwnerId(ownerId,AdoptionState.PENDIENTE,adoption.getPet().getId());
 		if (numAdopciones>0 && isCreate==true)            	
         	throw new SolicitudAdopcionDuplicada();
         else
@@ -45,6 +46,11 @@ private AdoptionRepository adoptionRepository;
 	@Transactional(readOnly = true)
 	public Owner findAdoptionPosibleOwnerByOwnId(int adopId) throws DataAccessException {
 		return adoptionRepository.findAdoptionPosibleOwnerByOwnId(adopId);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Adoption> findAdoptionsByOwnerId(int ownerId) throws DataAccessException {
+		return adoptionRepository.findAdoptionsByOwnerId(ownerId);
 	}
 	
 	@Transactional
