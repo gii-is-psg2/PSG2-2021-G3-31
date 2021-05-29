@@ -22,9 +22,13 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Adoption;
+import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.service.AdoptionService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.CausaService;
 import org.springframework.samples.petclinic.service.DonacionService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -52,11 +56,17 @@ public class OwnerController {
 
 	private final OwnerService ownerService;
 	private final DonacionService donacionService;
+	private final AdoptionService adoptionService;
+	private final CausaService causaService;
 
 	@Autowired
-	public OwnerController(OwnerService ownerService,DonacionService donacionService, UserService userService, AuthoritiesService authoritiesService) {
+	public OwnerController(OwnerService ownerService,DonacionService donacionService, 
+			UserService userService, AuthoritiesService authoritiesService,
+			AdoptionService adoptionService,CausaService causaService) {
 		this.donacionService = donacionService;
 		this.ownerService = ownerService;
+		this.adoptionService = adoptionService;
+		this.causaService=causaService;
 	}
 
 	@InitBinder
@@ -75,8 +85,7 @@ public class OwnerController {
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+		}else {
 			//creating owner, user and authorities
 			this.ownerService.saveOwner(owner);
 			
@@ -154,8 +163,17 @@ public class OwnerController {
 		try {
 			Owner owner=this.ownerService.findOwnerById(ownerId);
 			List<Donacion> donaciones=this.donacionService.findAllDonacionForOwner(ownerId);
+			List<Adoption> adopciones = this.adoptionService.findAdoptionsByOwnerId(ownerId);
+			if(adopciones.size()!=0) {
+				for(int i=0;i<adopciones.size();i++) {
+					this.adoptionService.deleteAdoptionById(adopciones.get(i).getId());
+				}
+			}
 			if (donaciones.size()!=0) {
 				for(int i=0;i<donaciones.size();i++) {
+					Causa c=this.causaService.findById(donaciones.get(i).getCausa().getId());
+					c.setRecaudacion(c.getRecaudacion()-donaciones.get(i).getCantidadDonada());
+					this.causaService.saveCausa(c);
 					this.donacionService.deleteDonacion(donaciones.get(i));
 				}
 			}
