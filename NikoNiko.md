@@ -74,6 +74,6 @@ In the retrospective meeting, the team has a discussion about those results.
 | 31/05         | :smiley: | :smile: | :smile: | :smiley: | 😃 | :smiley: |
 | 01/05         | :smiley: |:smile:  | 😄 | :smiley: | :smiley: | :smiley: |
 | 02/05         |  | | |  | 😃 |  |
-| 03/05         | - | -  | - |  | :smiley: |  |
+| 03/05         | - | -  | :smile: |  | :smiley: |  |
 
 
