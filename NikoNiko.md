@@ -72,7 +72,7 @@ In the retrospective meeting, the team has a discussion about those results.
 | 29/05         | :smiley: | 😄 | - | - |:neutral_face: | :neutral_face: |
 | 30/05         | - | 😐 | - | :smiley: | 😃 | :worried: |
 | 31/05         | :smiley: | :smile: | :smile: | :smiley: | 😃 | :smiley: |
-| 01/05         | :smiley: |:smile:  | 😄 | :smiley: | | :smiley: |
+| 01/05         | :smiley: |:smile:  | 😄 | :smiley: | :smiley: | :smiley: |
 | 02/05         |  | | |  | 😃 |  |
 | 03/05         | - | -  | - |  | :smiley: |  |
 
